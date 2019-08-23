@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id'application'
+    id'com.github.johnrengelman.shadow' version '4.0.4'
+}
+
+group 'com.xuxe'
+version '1.0-SNAPSHOT'
+mainClassName = 'com.xuxe.falconHeavy.FalconHeavy'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'net.dv8tion:JDA:4.0.0_45'
+    compile 'mysql:mysql-connector-java:5.1.44'
+    compile 'com.sedmelluq:lavaplayer:1.3.11'
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'com.googlecode.json-simple:json-simple:1.1.1'
+    compile 'org.jsoup:jsoup:1.11.3'
+    compile 'com.mashape.unirest:unirest-java:1.4.9'
+    compile 'org.javadelight:delight-nashorn-sandbox:0.1.21'
+    compile 'org.slf4j:slf4j-api:1.7.26'
+    compile 'com.google.apis:google-api-services-youtube:v3-rev209-1.25.0'
+    compile 'ch.qos.logback:logback-classic:1.2.3'
+    compile 'ch.qos.logback:logback-core:1.2.3'
+    compile 'com.jagrosh:JLyrics:0.2'
+}
+compileJava.options.encoding = 'UTF-8'
