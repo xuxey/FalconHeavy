@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-import static com.xuxe.falconHeavy.Constants.MAX_MESSAGES;
+import static com.xuxe.falconHeavy.constants.Constants.MAX_MESSAGES;
 import static com.xuxe.falconHeavy.utils.Manipulators.popArray;
 
 public class CommandTrigger {
