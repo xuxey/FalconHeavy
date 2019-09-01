@@ -34,33 +34,8 @@ However, this bot has a minimal amount of permissions, meaning !!ban and !!kick 
 
 ## Using the bot
 
-For commands, `!!` is the prefix.
-
-### Some commands
-
-FalconBot is equipped with a bunch of commands that adds functionality to your server.
-
-```
-!!music - Plays YouTube audio in voice channels. Usage: !music p <track name>. Use !!music skip to skip/pause tracks.
-!!g - Gets the first link from a google search.
-!!lyrics <songName> - Gets the lyrics to a song
-!!yt <searchTerm> - Gets the first search result on Youtube.
-!!joindate - Gets most recent join date for a member in the server.
-!!emotify - Converts an alpha numeric string into its emote equivalent. Limited to 12 characters.
-!!servercreationdate - Gets the date on which the server was created.
-!!info - Fetches data from existing Wikipedia infoboxes.
-!!cat - Gets a random picture of a cat
-!!mindblow - Gets a random fact
-!!learnjava - Fetches a series of helpful links to Java Tutorials
-!!math - Calculates a math expression
-!!avatar - Gets a mentioned user's profile picture. Alternatively, gets sender's profile picture if no one is mentioned.
-!!help - Shows more information about XuccBot's commands.
-!!ping - Fetches XuccBot's ping in milliseconds
-!!rep - Fetches a link to XuccBOt's GitHub repository.
-!!usercount - Fetches the number of XuccBot users.
-!!guildcount - Gets the number of discord servers XuccBot is a part of.
-```
-
+For commands, `//` is the prefix.
+Use //help to see a comprehensive list of commands.
 
 ## Built With
 
