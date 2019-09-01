@@ -19,5 +19,43 @@ public abstract class Command {
         //todo set countdown
         run(trigger);
     }
+
     abstract void run(CommandTrigger trigger);
+
+    public String getName() {
+        return name;
+    }
+
+    public String[] getAliases() {
+        return aliases;
+    }
+
+    public String getHelp() {
+        return help;
+    }
+
+    public String getExtraHelp() {
+        return extraHelp;
+    }
+
+    public String getHelpImageLink() {
+        return helpImageLink;
+    }
+
+    public int[] getCooldown() {
+        return cooldown;
+    }
+
+    public CooldownScope getCooldownScope() {
+        return cooldownScope;
+    }
+
+    public Permission[] getUserPermissions() {
+        return userPermissions;
+    }
+
+    public boolean isPrivateAccessible() {
+        return privateAccessible;
+    }
+
 }

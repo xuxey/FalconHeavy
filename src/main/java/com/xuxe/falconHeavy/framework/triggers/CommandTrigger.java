@@ -1,9 +1,8 @@
 package com.xuxe.falconHeavy.framework.triggers;
 
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.MessageEmbed;
+import com.xuxe.falconHeavy.database.DBChecks;
+import com.xuxe.falconHeavy.framework.UserRank;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.io.File;
@@ -23,6 +22,8 @@ public class CommandTrigger {
     private MessageChannel channel;
     private MessageReceivedEvent event;
     private boolean hasFile;
+    private User user;
+    private UserRank rank;
 
     public CommandTrigger(MessageReceivedEvent event) {
         this.message = event.getMessage();
@@ -34,6 +35,53 @@ public class CommandTrigger {
         this.channel = event.getChannel();
         this.event = event;
         this.hasFile = message.getAttachments().size() > 0;
+        this.user = event.getAuthor();
+        this.rank = DBChecks.getRank(user.getId());
+    }
+
+    // Getters
+    public UserRank getRank() {
+        return rank;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public String[] getFullArgs() {
+        return fullArgs;
+    }
+
+    public String getString() {
+        return string;
+    }
+
+    public String[] getArgs() {
+        return args;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public Message getMessage() {
+        return message;
+    }
+
+    public Guild getGuild() {
+        return guild;
+    }
+
+    public MessageChannel getChannel() {
+        return channel;
+    }
+
+    public MessageReceivedEvent getEvent() {
+        return event;
+    }
+
+    public boolean isHasFile() {
+        return hasFile;
     }
 
     // Also adapted from JDAUtils

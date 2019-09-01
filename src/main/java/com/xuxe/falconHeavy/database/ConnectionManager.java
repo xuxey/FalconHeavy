@@ -18,7 +18,7 @@ public class ConnectionManager {
         }
     }
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         if (validate())
             return connection;
         if (connect())
@@ -26,7 +26,7 @@ public class ConnectionManager {
         return null;
     }
 
-    private boolean connect() {
+    private static boolean connect() {
         try {
             connection = DriverManager.getConnection(DBConfig.getUrl(), DBConfig.getSqlID(), DBConfig.getSqlPassword());
             return validate();

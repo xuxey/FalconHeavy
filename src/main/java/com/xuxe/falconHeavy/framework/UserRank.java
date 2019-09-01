@@ -1,5 +1,5 @@
 package com.xuxe.falconHeavy.framework;
 
-public enum UserHierarchy {
+public enum UserRank {
     DEFAULT, DONATOR, ADMIN
 }
