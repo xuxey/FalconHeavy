@@ -1,6 +1,6 @@
 package com.xuxe.falconHeavy.database;
 
-import com.xuxe.falconHeavy.config.DBConfig;
+import com.xuxe.falconHeavy.FalconHeavy;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,11 +9,10 @@ import java.sql.SQLException;
 public class ConnectionManager {
     private static Connection connection;
 
-    public static boolean validate() {
+    private static boolean validate() {
         try {
             return connection.isValid(5);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException | NullPointerException e) {
             return false;
         }
     }
@@ -28,7 +27,10 @@ public class ConnectionManager {
 
     private static boolean connect() {
         try {
-            connection = DriverManager.getConnection(DBConfig.getUrl(), DBConfig.getSqlID(), DBConfig.getSqlPassword());
+            System.out.println("Connecting to Database: " + FalconHeavy.getConfig().getUrl());
+            connection = DriverManager.getConnection(FalconHeavy.getConfig().getUrl(),
+                    FalconHeavy.getConfig().getSqlID(),
+                    FalconHeavy.getConfig().getSqlPassword());
             return validate();
         } catch (SQLException e) {
             e.printStackTrace();

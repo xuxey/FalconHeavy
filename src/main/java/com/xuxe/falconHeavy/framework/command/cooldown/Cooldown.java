@@ -13,16 +13,23 @@ public class Cooldown {
     // Anyway, here's the basic boilerplate for the following HashMaps:
     // HashMap<String [commandName], HashMap<String [user/guild/channelID], Long [epoch millisecond time]>
     // CooldownScope.USER
-    private static HashMap<String, HashMap<String, Long>> userCooldowns;
+    private static HashMap<String, HashMap<String, Long>> userCooldowns = new HashMap<>();
     // CooldownScope.GUILD
-    private static HashMap<String, HashMap<String, Long>> guildCooldowns;
+    private static HashMap<String, HashMap<String, Long>> guildCooldowns = new HashMap<>();
     //CooldownScope.CHANNEL
-    private static HashMap<String, HashMap<String, Long>> channelCooldowns;
+    private static HashMap<String, HashMap<String, Long>> channelCooldowns = new HashMap<>();
 
     public static int process(Command command, CommandTrigger trigger) {
-        String userID = trigger.getUser().getId(), name = command.getName();
+        String userID = trigger.getUser().getId();
+        String name = command.getName();
         HashMap<String, Long> cooldownList = getMap(command);
-        long currentTime = System.currentTimeMillis(), endTime = cooldownList.get(getID(command, trigger));
+        long currentTime = System.currentTimeMillis();
+        long endTime = 0;
+        if (cooldownList != null)
+            endTime = cooldownList.get(getID(command, trigger));
+        else {
+            return 0;
+        }
         if (currentTime < endTime) {
             return (int) (currentTime - endTime) / 1000;
         } else {

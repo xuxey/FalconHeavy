@@ -1,38 +1,37 @@
 package com.xuxe.falconHeavy.config;
 
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
-import com.xuxe.falconHeavy.FalconHeavy;
-import com.xuxe.falconHeavy.constants.Constants;
-import com.xuxe.falconHeavy.constants.FileNames;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-
 public class Config {
-    private static String token;
-    private static String ownerID;
-    private static String youTubeKey;
-    private static String dictionaryKey;
+    public String prefix = "//";
+    private String token;
+    private String ownerID;
+    private String youTubeKey;
+    private String dictionaryKey;
+    private String sqlID;
+    private String sqlPassword;
+    private String url;
 
-    public static String getToken() {
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getSqlID() {
+        return sqlID;
+    }
+
+    public String getSqlPassword() {
+        return sqlPassword;
+    }
+
+    public String getToken() {
         return token;
     }
 
-    public static String getDictionaryKey() {
+    public String getDictionaryKey() {
         return dictionaryKey;
-    }
-
-    public static void reload() {
-        try {
-            Gson gson = new Gson();
-            JsonReader reader = null;
-            reader = new JsonReader(new FileReader(FileNames.CONFIG_MAIN));
-            gson.fromJson(reader, Config.class);
-        } catch (FileNotFoundException e) {
-            FalconHeavy.logger.info(Constants.TASK_FAIL + " load " + FileNames.CONFIG_MAIN);
-            e.printStackTrace();
-        }
     }
 
     public String getOwnerID() {

@@ -1,26 +1,32 @@
 package com.xuxe.falconHeavy.framework.command;
 
+import com.xuxe.falconHeavy.constants.Responses;
 import com.xuxe.falconHeavy.framework.command.cooldown.CooldownScope;
 import com.xuxe.falconHeavy.framework.triggers.CommandTrigger;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 
 public abstract class Command {
-    protected String name;
-    protected String[] aliases;
-    protected String help;
-    protected String extraHelp;
-    protected String helpImageLink;
+    protected String name = "";
+    protected String[] aliases = new String[]{};
+    protected String help = "Help not available.";
+    protected String extraHelp = "Extra help not available.";
+    protected String helpImageLink = "";
     protected int[] cooldown = {0, 0, 0};
-    protected CooldownScope cooldownScope;
-    protected Permission[] userPermissions;
+    protected CooldownScope cooldownScope = CooldownScope.USER;
+    protected Permission[] userPermissions = new Permission[]{};
     protected boolean privateAccessible = false;
 
     void checkRun(CommandTrigger trigger) {
         //todo set countdown
-        run(trigger);
+        try {
+            run(trigger);
+        } catch (InsufficientPermissionException perms) {
+            trigger.getChannel().sendMessage(Responses.NO_BOT_PERMISSION + perms.getPermission().getName()).queue();
+        }
     }
 
-    abstract void run(CommandTrigger trigger);
+    public abstract void run(CommandTrigger trigger);
 
     public String getName() {
         return name;

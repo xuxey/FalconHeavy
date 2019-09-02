@@ -7,5 +7,6 @@ build
 gradle
 gradlew.bat
 
-
+# testing config files
+config.json
 

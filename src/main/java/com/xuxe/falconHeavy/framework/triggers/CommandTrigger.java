@@ -1,7 +1,8 @@
 package com.xuxe.falconHeavy.framework.triggers;
 
-import com.xuxe.falconHeavy.database.DBChecks;
+import com.xuxe.falconHeavy.database.framework.DBChecks;
 import com.xuxe.falconHeavy.framework.UserRank;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -12,6 +13,7 @@ import java.util.function.Consumer;
 import static com.xuxe.falconHeavy.constants.Constants.MAX_MESSAGES;
 import static com.xuxe.falconHeavy.utils.Manipulators.popArray;
 
+@SuppressWarnings("unused")
 public class CommandTrigger {
     private String[] fullArgs;
     private String string;
@@ -24,6 +26,8 @@ public class CommandTrigger {
     private boolean hasFile;
     private User user;
     private UserRank rank;
+    private boolean guildDisabled;
+    private JDA jda;
 
     public CommandTrigger(MessageReceivedEvent event) {
         this.message = event.getMessage();
@@ -37,9 +41,14 @@ public class CommandTrigger {
         this.hasFile = message.getAttachments().size() > 0;
         this.user = event.getAuthor();
         this.rank = DBChecks.getRank(user.getId());
+        this.jda = event.getJDA();
     }
 
     // Getters
+    public JDA getJda() {
+        return jda;
+    }
+
     public UserRank getRank() {
         return rank;
     }

@@ -2,6 +2,9 @@ package com.xuxe.falconHeavy.framework.command;
 
 import com.xuxe.falconHeavy.FalconHeavy;
 import com.xuxe.falconHeavy.constants.Responses;
+import com.xuxe.falconHeavy.database.framework.DBChecks;
+import com.xuxe.falconHeavy.database.framework.DBGuildSettings;
+import com.xuxe.falconHeavy.framework.command.cooldown.Cooldown;
 import com.xuxe.falconHeavy.framework.triggers.CommandTrigger;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -12,7 +15,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class CommandHandler implements CommandInterface {
-    private static HashMap<String, Command> commands;
+    private static HashMap<String, Command> commands = new HashMap<>();
 
     @Override
     public HashMap<String, Command> getCommands() {
@@ -21,9 +24,10 @@ public class CommandHandler implements CommandInterface {
 
     @Override
     public void addCommand(Command command) {
-        if (command.name.equals("")) return;
-        commands.put(command.name.trim().toLowerCase(), command);
+        if (command.getName().equals("")) return;
+        commands.put(command.getName().trim().toLowerCase(), command);
         String[] aliases = command.aliases;
+        System.out.println("Registered command: " + command.getName());
         for (String alias : aliases) {
             if (!commands.containsKey(alias))
                 commands.put(alias.trim().toLowerCase(), command);
@@ -39,11 +43,22 @@ public class CommandHandler implements CommandInterface {
 
     @Override
     public void onCommand(String commandName, MessageReceivedEvent event) {
+        if (!commands.containsKey(commandName.toLowerCase().trim()))
+            return;
         Command command = commands.get(commandName.toLowerCase());
-        //todo blacklist check
-
-        //todo cooldown check
-
+        CommandTrigger trigger = new CommandTrigger(event);
+        // Blacklist Check
+        if (DBChecks.isBlacklisted(trigger.getUser().getId()))
+            return;
+        // Cooldown Check
+        if (Cooldown.process(command, trigger) > 0) {
+            event.getChannel().sendMessage(Responses.COOLDOWN).queue();
+            return;
+        }
+        // guild settings check
+        if (DBGuildSettings.isDisabled(command, trigger)) {
+            event.getChannel().sendMessage(Responses.GUILD_DISABLED_COMMAND).queue();
+        }
         // Permissions check
         if (!event.getChannelType().equals(ChannelType.PRIVATE)) {
             try {
@@ -61,7 +76,6 @@ public class CommandHandler implements CommandInterface {
         // private channel check
         if (!command.privateAccessible && event.getChannelType().equals(ChannelType.PRIVATE))
             event.getPrivateChannel().sendMessage(Responses.NO_DM_ALLOWED).queue();
-        command.checkRun(new CommandTrigger(event));
-
+        command.checkRun(trigger);
     }
 }
