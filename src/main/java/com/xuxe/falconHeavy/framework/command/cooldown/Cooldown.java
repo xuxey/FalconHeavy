@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class Cooldown {
     // This might seem like a complicated mess. That is because it is. But it works.
     // Anyway, here's the basic boilerplate for the following HashMaps:
-    // HashMap<String [commandName], HashMap<String [user/guild/channelID], Long [epoch millisecond time]>
+    // HashMap<String [commandName], HashMap<String [user/guild/channelID], Long [epoch millisecond time]>>
     // CooldownScope.USER
     private static HashMap<String, HashMap<String, Long>> userCooldowns = new HashMap<>();
     // CooldownScope.GUILD
@@ -48,11 +48,8 @@ public class Cooldown {
         HashMap<String, Long> cooldownList = getMap(command);
         int duration = getDuration(command.getCooldown(), trigger.getRank());
         long newTime = System.currentTimeMillis() + (duration * 1000);
-        System.out.println("ADDED COOLDOWN: " + newTime + " CURRENT: " + System.currentTimeMillis());
-        System.out.println(trigger.getUser().getId() + " => " + newTime);
         cooldownList.put(trigger.getUser().getId(), newTime);
         // It's 1:17 AM and I need a life - Xuxe 2nd September 2019
-        System.out.println("==================" + cooldownList.toString());
         put(command.getCooldownScope(), command.getName(), cooldownList);
     }
 
