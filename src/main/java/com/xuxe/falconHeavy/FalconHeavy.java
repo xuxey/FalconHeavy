@@ -28,6 +28,7 @@ public class FalconHeavy {
         // load config
         config = reload(FileNames.CONFIG_MAIN);
         CommandHandler handler = new CommandHandler();
+        assert config != null;
         JDA jda = new JDABuilder(config.getToken()).build().awaitReady();
         jda.addEventListener(new MessageReceivers());
         handler.addCommand(new PingCommand());

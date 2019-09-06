@@ -35,7 +35,8 @@ public class CommandTrigger {
         this.string = message.getContentRaw();
         this.args = popArray(fullArgs);
         this.label = fullArgs[0];
-        this.guild = event.getGuild();
+        if (event.isFromGuild())
+            this.guild = event.getGuild();
         this.channel = event.getChannel();
         this.event = event;
         this.hasFile = message.getAttachments().size() > 0;

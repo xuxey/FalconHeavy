@@ -9,6 +9,8 @@ public class MessageReceivers extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+        if (event.getAuthor().isBot())
+            return;
         if (!event.getMessage().getContentRaw().startsWith(FalconHeavy.getConfig().getPrefix()))
             return;
         String label = "";

@@ -8,10 +8,10 @@ public class PingCommand extends Command {
     public PingCommand() {
         this.name = "ping";
         this.aliases = new String[]{"pong", "peng"};
-        this.cooldown = new int[]{30, 10, 10};
-        this.cooldownScope = CooldownScope.GUILD;
+        this.cooldown = new int[]{30, 1, 1};
+        this.cooldownScope = CooldownScope.USER;
         this.help = "Gets falcon heavy's response time";
-        this.privateAccessible = true;
+        this.privateAccessible = false;
     }
 
     @Override

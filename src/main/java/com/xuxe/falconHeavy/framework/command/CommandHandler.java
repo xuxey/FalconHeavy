@@ -28,6 +28,7 @@ public class CommandHandler implements CommandInterface {
         commands.put(command.getName().trim().toLowerCase(), command);
         String[] aliases = command.aliases;
         System.out.println("Registered command: " + command.getName());
+        Cooldown.addStartupCommand(command);
         for (String alias : aliases) {
             if (!commands.containsKey(alias))
                 commands.put(alias.trim().toLowerCase(), command);
@@ -50,15 +51,16 @@ public class CommandHandler implements CommandInterface {
         // Blacklist Check
         if (DBChecks.isBlacklisted(trigger.getUser().getId()))
             return;
-        // Cooldown Check
-        if (Cooldown.process(command, trigger) > 0) {
-            event.getChannel().sendMessage(Responses.COOLDOWN).queue();
+        // private channel check
+        if (!command.privateAccessible && event.getChannelType().equals(ChannelType.PRIVATE)) {
+            event.getPrivateChannel().sendMessage(Responses.NO_DM_ALLOWED).queue();
             return;
         }
         // guild settings check
         if (DBGuildSettings.isDisabled(command, trigger)) {
             event.getChannel().sendMessage(Responses.GUILD_DISABLED_COMMAND).queue();
         }
+
         // Permissions check
         if (!event.getChannelType().equals(ChannelType.PRIVATE)) {
             try {
@@ -73,9 +75,13 @@ public class CommandHandler implements CommandInterface {
                 event.getChannel().sendMessage(Responses.ERROR).queue();
             }
         }
-        // private channel check
-        if (!command.privateAccessible && event.getChannelType().equals(ChannelType.PRIVATE))
-            event.getPrivateChannel().sendMessage(Responses.NO_DM_ALLOWED).queue();
+        // Cooldown Check
+        int timeLeft = Cooldown.process(command, trigger);
+        if (timeLeft > 0) {
+            event.getChannel().sendMessage(String.format(Responses.COOLDOWN, timeLeft)).queue();
+            return;
+        }
+
         command.checkRun(trigger);
     }
 }

@@ -23,30 +23,36 @@ public class Cooldown {
         String userID = trigger.getUser().getId();
         String name = command.getName();
         HashMap<String, Long> cooldownList = getMap(command);
-        long currentTime = System.currentTimeMillis();
-        long endTime = 0;
-        if (cooldownList != null)
-            endTime = cooldownList.get(getID(command, trigger));
+        if (cooldownList == null)
+            return 0;
+        Long endTime;
+        if (cooldownList.containsKey(getEntityId(command, trigger)))
+            endTime = cooldownList.get(getEntityId(command, trigger));
         else {
+            add(command, trigger);
             return 0;
         }
-        if (currentTime < endTime) {
-            return (int) (currentTime - endTime) / 1000;
+        int finalTime;
+        Long currentTime = System.currentTimeMillis();
+        if (currentTime.compareTo(endTime) < 0) { // currentTime < endTime
+            finalTime = (int) (endTime - currentTime) / 1000;
         } else {
-            //removeOutdated(Long.parseLong(getID(command,trigger)), command);
-            cooldownList.remove(getID(command, trigger));
-            removeOutdated(command, cooldownList);
-            return 0;
+            finalTime = 0;
         }
+        cooldownList.remove(getEntityId(command, trigger));
+        removeOutdated(command, cooldownList);
+        return finalTime;
     }
 
-    public static void add(Command command, CommandTrigger trigger) {
+    private static void add(Command command, CommandTrigger trigger) {
         HashMap<String, Long> cooldownList = getMap(command);
         int duration = getDuration(command.getCooldown(), trigger.getRank());
         long newTime = System.currentTimeMillis() + (duration * 1000);
-        assert cooldownList != null;
+        System.out.println("ADDED COOLDOWN: " + newTime + " CURRENT: " + System.currentTimeMillis());
+        System.out.println(trigger.getUser().getId() + " => " + newTime);
         cooldownList.put(trigger.getUser().getId(), newTime);
         // It's 1:17 AM and I need a life - Xuxe 2nd September 2019
+        System.out.println("==================" + cooldownList.toString());
         put(command.getCooldownScope(), command.getName(), cooldownList);
     }
 
@@ -62,7 +68,7 @@ public class Cooldown {
         return null;
     }
 
-    private static String getID(Command command, CommandTrigger trigger) {
+    private static String getEntityId(Command command, CommandTrigger trigger) {
         CooldownScope scope = command.getCooldownScope();
         if (scope.equals(CooldownScope.USER))
             return trigger.getUser().getId();
@@ -99,5 +105,18 @@ public class Cooldown {
             guildCooldowns.put(name, newMap);
         else if (scope.equals(CooldownScope.CHANNEL))
             channelCooldowns.put(name, newMap);
+    }
+
+    public static void addStartupCommand(Command command) {
+        CooldownScope scope = command.getCooldownScope();
+        if (scope.equals(CooldownScope.USER)) {
+            userCooldowns.put(command.getName(), new HashMap<>());
+        }
+        if (scope.equals(CooldownScope.GUILD)) {
+            guildCooldowns.put(command.getName(), new HashMap<>());
+        }
+        if (scope.equals(CooldownScope.CHANNEL)) {
+            channelCooldowns.put(command.getName(), new HashMap<>());
+        }
     }
 }
