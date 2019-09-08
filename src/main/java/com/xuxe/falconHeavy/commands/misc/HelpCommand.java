@@ -45,7 +45,10 @@ public class HelpCommand extends Command {
         builder.setTitle(Character.toUpperCase(command.getName().charAt(0)) + command.getName().substring(1));
         builder.setColor(Color.DARK_GRAY);
         builder.setFooter(command.getCategory() + " | Cooldown: " + ((command.getCooldown()[0] == 0) ? "None" : command.getCooldown()[0]));
-        builder.setDescription(command.getExtraHelp());
+        if (!command.getExtraHelp().isEmpty())
+            builder.setDescription(command.getExtraHelp());
+        else
+            builder.setDescription(command.getHelp());
         if (!command.getSyntax().isEmpty())
             builder.appendDescription("```yaml\n" + FalconHeavy.getConfig().prefix + command.getSyntax() + "```");
         if (!command.getHelpImageLink().isEmpty())

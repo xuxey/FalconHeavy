@@ -137,6 +137,10 @@ public class CommandTrigger {
     /*
      *  respond methods adapted from JDAUtilities
      */
+    public void respond(String message) {
+        sendMessage(event.getChannel(), message, null, null);
+    }
+
     public void respond(String message, Consumer<Message> success, Consumer<Throwable> failure) {
         sendMessage(event.getChannel(), message, success, failure);
     }

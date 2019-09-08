@@ -2,6 +2,7 @@ package com.xuxe.falconHeavy;
 
 import com.xuxe.falconHeavy.commands.misc.HelpCommand;
 import com.xuxe.falconHeavy.commands.misc.PingCommand;
+import com.xuxe.falconHeavy.commands.moderation.BanCommand;
 import com.xuxe.falconHeavy.config.Config;
 import com.xuxe.falconHeavy.constants.FileNames;
 import com.xuxe.falconHeavy.framework.command.CommandHandler;
@@ -31,6 +32,7 @@ public class FalconHeavy {
         jda.addEventListener(new MessageReceivers());
         handler.addCommand(new PingCommand());
         handler.addCommand(new HelpCommand());
+        handler.addCommand(new BanCommand());
     }
 
     public static Config getConfig() {
