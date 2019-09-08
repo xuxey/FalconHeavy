@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class DBChecks {
     public static UserRank getRank(String userID) {
@@ -21,7 +22,7 @@ public class DBChecks {
             return Manipulators.rankParser(set.getString("user_rank"));
         } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
-            return null;
+            return UserRank.DEFAULT;
         }
     }
 
@@ -38,5 +39,17 @@ public class DBChecks {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static boolean isAdmin(String id) {
+        return Objects.equals(getRank(id), UserRank.ADMIN);
+    }
+
+    public static boolean isDonator(String id) {
+        return Objects.equals(getRank(id), UserRank.DONATOR);
+    }
+
+    public static boolean isDefault(String id) {
+        return Objects.equals(getRank(id), UserRank.DEFAULT);
     }
 }

@@ -70,6 +70,9 @@ public class CommandTrigger {
         return args;
     }
 
+    public String getArgs(int index) {
+        return args[index];
+    }
     public String getLabel() {
         return label;
     }

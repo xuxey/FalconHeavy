@@ -14,20 +14,26 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class CommandHandler implements CommandInterface {
+public class CommandHandler {
     private static HashMap<String, Command> commands = new HashMap<>();
+    private static HashMap<String, String> categories = new HashMap<>();
 
-    @Override
-    public HashMap<String, Command> getCommands() {
+    public static void removeCommand(String command) {
+        commands.remove(command.toLowerCase());
+    }
+
+    public static HashMap<String, String> getCategories() {
+        return categories;
+    }
+
+    public static HashMap<String, Command> getCommands() {
         return commands;
     }
 
-    @Override
     public void addCommand(Command command) {
         if (command.getName().equals("")) return;
         commands.put(command.getName().trim().toLowerCase(), command);
         String[] aliases = command.aliases;
-        System.out.println("Registered command: " + command.getName());
         Cooldown.addStartupCommand(command);
         for (String alias : aliases) {
             if (!commands.containsKey(alias))
@@ -35,14 +41,18 @@ public class CommandHandler implements CommandInterface {
             else
                 FalconHeavy.logger.info("Did not add command " + alias + ", Duplicate key.");
         }
+        String categoryList;
+        if (categories.containsKey(command.getCategory())) {
+            categoryList = categories.get(command.getCategory());
+            categoryList += ", " + command.getName();
+            categories.replace(command.getCategory(), categoryList);
+        } else {
+            categoryList = command.getName();
+            categories.put(command.getCategory(), categoryList);
+        }
+        System.out.println("Registered command: " + command.getName());
     }
 
-    @Override
-    public void removeCommand(String command) {
-        commands.remove(command.toLowerCase());
-    }
-
-    @Override
     public void onCommand(String commandName, MessageReceivedEvent event) {
         if (!commands.containsKey(commandName.toLowerCase().trim()))
             return;

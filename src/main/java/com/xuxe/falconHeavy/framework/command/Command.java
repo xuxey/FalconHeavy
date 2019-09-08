@@ -4,6 +4,7 @@ import com.xuxe.falconHeavy.constants.Responses;
 import com.xuxe.falconHeavy.framework.command.cooldown.CooldownScope;
 import com.xuxe.falconHeavy.framework.triggers.CommandTrigger;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 
 public abstract class Command {
@@ -16,14 +17,18 @@ public abstract class Command {
     protected CooldownScope cooldownScope = CooldownScope.USER;
     protected Permission[] userPermissions = new Permission[]{};
     protected boolean privateAccessible = false;
-
+    protected String category = "Others";
+    protected String syntax = "";
     void checkRun(CommandTrigger trigger) {
-        //todo set countdown
         try {
             run(trigger);
         } catch (InsufficientPermissionException perms) {
             trigger.getChannel().sendMessage(Responses.NO_BOT_PERMISSION + perms.getPermission().getName()).queue();
         }
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public abstract void run(CommandTrigger trigger);
@@ -64,4 +69,11 @@ public abstract class Command {
         return privateAccessible;
     }
 
+    protected void reactFail(final Message message) {
+        message.addReaction("\u274C").queue();
+    }
+
+    protected void reactSuccess(final Message message) {
+        message.addReaction("\u2705").queue();
+    }
 }
