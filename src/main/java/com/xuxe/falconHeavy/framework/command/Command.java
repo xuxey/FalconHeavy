@@ -13,10 +13,10 @@ public abstract class Command {
     protected String help = "Help not available.";
     protected String extraHelp = "Extra help not available.";
     protected String helpImageLink = "";
-    protected int[] cooldown = {0, 0, 0};
+    protected int[] cooldown = {0, 0};
     protected CooldownScope cooldownScope = CooldownScope.USER;
     protected Permission[] userPermissions = new Permission[]{};
-    protected boolean privateAccessible = false;
+    protected boolean privateAccessible = true;
     protected String category = "Others";
 
     protected String syntax = "";

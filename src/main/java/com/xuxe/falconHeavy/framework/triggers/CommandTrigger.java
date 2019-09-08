@@ -3,6 +3,7 @@ package com.xuxe.falconHeavy.framework.triggers;
 import com.xuxe.falconHeavy.database.framework.DBChecks;
 import com.xuxe.falconHeavy.framework.UserRank;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -135,8 +136,21 @@ public class CommandTrigger {
     }
 
     /*
-     *  respond methods adapted from JDAUtilities
+     *  respond methods adapted from JDAUtilities and JDAButler
      */
+
+    protected void reply(MessageReceivedEvent event, String message, Consumer<Message> successConsumer) {
+        respond(event, new MessageBuilder(message).build(), successConsumer);
+    }
+
+    public void respond(MessageReceivedEvent event, Message message, Consumer<Message> successConsumer) {
+        event.getChannel().sendMessage(message).queue(msg ->
+        {
+            if (successConsumer != null)
+                successConsumer.accept(msg);
+        });
+    }
+
     public void respond(String message) {
         sendMessage(event.getChannel(), message, null, null);
     }
