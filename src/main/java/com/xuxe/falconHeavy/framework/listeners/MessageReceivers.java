@@ -22,7 +22,7 @@ public class MessageReceivers extends ListenerAdapter {
                 label = element;
             break;
         }
-        label = label.replace("//", "");
+        label = label.replace(FalconHeavy.getConfig().prefix, "");
         new CommandHandler().onCommand(label, event);
     }
     /*@Override

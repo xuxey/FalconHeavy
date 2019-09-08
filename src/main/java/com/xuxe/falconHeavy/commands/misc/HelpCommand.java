@@ -1,5 +1,6 @@
 package com.xuxe.falconHeavy.commands.misc;
 
+import com.xuxe.falconHeavy.FalconHeavy;
 import com.xuxe.falconHeavy.framework.command.Command;
 import com.xuxe.falconHeavy.framework.command.CommandHandler;
 import com.xuxe.falconHeavy.framework.triggers.CommandTrigger;
@@ -14,7 +15,7 @@ public class HelpCommand extends Command {
         this.name = "help";
         this.help = "Provides help related to commands";
         this.privateAccessible = true;
-        this.syntax = "//help [Command Name]";
+        this.syntax = "help [Command Name]";
         this.extraHelp = "Provides a categorized list of commands, as well as specific help for each command";
     }
 
@@ -22,13 +23,13 @@ public class HelpCommand extends Command {
     public void run(CommandTrigger trigger) {
         EmbedBuilder helpBuilder = new EmbedBuilder();
         if (trigger.getArgs().length == 0)
-            helpBuilder = getHelpBuilder();
+            helpBuilder = getFullHelp();
         else
             helpBuilder = getHelp(trigger.getArgs(0));
         trigger.respond(helpBuilder.build());
     }
 
-    private EmbedBuilder getHelpBuilder() {
+    private EmbedBuilder getFullHelp() {
         EmbedBuilder builder = new EmbedBuilder().setTitle("Commands available: ");
         HashMap<String, String> categories = CommandHandler.getCategories();
         for (Map.Entry<String, String> entry : categories.entrySet()) {
@@ -45,6 +46,8 @@ public class HelpCommand extends Command {
         builder.setColor(Color.DARK_GRAY);
         builder.setFooter(command.getCategory() + " | Cooldown: " + ((command.getCooldown()[0] == 0) ? "None" : command.getCooldown()[0]));
         builder.setDescription(command.getExtraHelp());
+        if (!command.getSyntax().isEmpty())
+            builder.appendDescription("```yaml\n" + FalconHeavy.getConfig().prefix + command.getSyntax() + "```");
         if (!command.getHelpImageLink().isEmpty())
             builder.setImage(command.getHelpImageLink());
         return builder;

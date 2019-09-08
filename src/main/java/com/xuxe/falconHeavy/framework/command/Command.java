@@ -18,6 +18,7 @@ public abstract class Command {
     protected Permission[] userPermissions = new Permission[]{};
     protected boolean privateAccessible = false;
     protected String category = "Others";
+
     protected String syntax = "";
     void checkRun(CommandTrigger trigger) {
         try {
@@ -25,6 +26,10 @@ public abstract class Command {
         } catch (InsufficientPermissionException perms) {
             trigger.getChannel().sendMessage(Responses.NO_BOT_PERMISSION + perms.getPermission().getName()).queue();
         }
+    }
+
+    public String getSyntax() {
+        return syntax;
     }
 
     public String getCategory() {
