@@ -18,13 +18,18 @@ public abstract class Command {
     protected Permission[] userPermissions = new Permission[]{};
     protected boolean privateAccessible = true;
     protected String category = "Others";
-
+    private CommandTrigger trigger;
     protected String syntax = "";
     void checkRun(CommandTrigger trigger) {
+        this.trigger = trigger;
         try {
             run(trigger);
         } catch (InsufficientPermissionException perms) {
             trigger.getChannel().sendMessage(Responses.NO_BOT_PERMISSION + perms.getPermission().getName()).queue();
+            reactFail(trigger.getMessage());
+        } catch (Exception e) {
+            reactFail(trigger.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -74,8 +79,16 @@ public abstract class Command {
         return privateAccessible;
     }
 
+    protected void reactFail() {
+        reactFail(trigger.getMessage());
+    }
+
     protected void reactFail(final Message message) {
         message.addReaction("\u274C").queue();
+    }
+
+    protected void reactSuccess() {
+        reactSuccess(trigger.getMessage());
     }
 
     protected void reactSuccess(final Message message) {

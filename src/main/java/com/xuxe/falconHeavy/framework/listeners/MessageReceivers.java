@@ -25,19 +25,4 @@ public class MessageReceivers extends ListenerAdapter {
         label = label.replace(FalconHeavy.getConfig().prefix, "");
         new CommandHandler().onCommand(label, event);
     }
-    /*@Override
-    public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
-        if(!event.getMessage().getContentRaw().startsWith(Config.prefix))
-            return;
-        String label = "";
-        //ignore spaces before command label because its user friendly
-        for (String element : event.getMessage().getContentRaw().split(" ")) {
-            if (element.equalsIgnoreCase("//") || element.equalsIgnoreCase(""))
-                continue;
-            else
-                label = element;
-            break;
-        }
-        handler.onCommand(label, event);
-    }*/
 }

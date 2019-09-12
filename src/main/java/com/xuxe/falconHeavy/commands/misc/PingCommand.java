@@ -10,7 +10,7 @@ import java.time.temporal.ChronoUnit;
 public class PingCommand extends Command {
     public PingCommand() {
         this.name = "ping";
-        this.aliases = new String[]{"pong", "peng"};
+        this.aliases = new String[]{"pong", "peng", "pang", "pung"};
         this.cooldown = new int[]{3, 1};
         this.cooldownScope = CooldownScope.USER;
         this.help = "Gets falcon heavy's response time";

@@ -19,6 +19,8 @@ import static com.xuxe.falconHeavy.config.Config.reload;
 public class FalconHeavy {
     public static final Logger logger = LogManager.getLogger();
     private static Config config;
+    private static JDA jda;
+
     FalconHeavy() {
     }
 
@@ -28,11 +30,15 @@ public class FalconHeavy {
         config = reload(FileNames.CONFIG_MAIN);
         CommandHandler handler = new CommandHandler();
         assert config != null;
-        JDA jda = new JDABuilder(config.getToken()).build().awaitReady();
+        jda = new JDABuilder(config.getToken()).build().awaitReady();
         jda.addEventListener(new MessageReceivers());
         handler.addCommand(new PingCommand());
         handler.addCommand(new HelpCommand());
         handler.addCommand(new BanCommand());
+    }
+
+    public static JDA getJda() {
+        return jda;
     }
 
     public static Config getConfig() {

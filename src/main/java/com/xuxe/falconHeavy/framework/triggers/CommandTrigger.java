@@ -29,24 +29,30 @@ public class CommandTrigger {
     private UserRank rank;
     private boolean guildDisabled;
     private JDA jda;
+    private boolean isPrivate = false;
 
     public CommandTrigger(MessageReceivedEvent event) {
         this.message = event.getMessage();
-        this.fullArgs = message.getContentRaw().split(" ");
-        this.string = message.getContentRaw();
+        this.fullArgs = getTrimmedArgs(message.getContentRaw());
         this.args = popArray(fullArgs);
         this.label = fullArgs[0];
         if (event.isFromGuild())
             this.guild = event.getGuild();
+        else
+            isPrivate = true;
         this.channel = event.getChannel();
         this.event = event;
         this.hasFile = message.getAttachments().size() > 0;
         this.user = event.getAuthor();
         this.rank = DBChecks.getRank(user.getId());
         this.jda = event.getJDA();
+        this.string = message.getContentRaw().split(label).length > 0 ? message.getContentRaw().split(label)[1] : "";
+    }
+    // Getters
+    public boolean isPrivate() {
+        return isPrivate;
     }
 
-    // Getters
     public JDA getJda() {
         return jda;
     }
@@ -74,6 +80,7 @@ public class CommandTrigger {
     public String getArgs(int index) {
         return args[index];
     }
+
     public String getLabel() {
         return label;
     }
@@ -98,6 +105,17 @@ public class CommandTrigger {
         return hasFile;
     }
 
+    /**
+     * @return a String array after getting rid of extra whitespaces
+     */
+    private String[] getTrimmedArgs(String content) {
+        String[] args = content.split(" ");
+        ArrayList<String> arrayList = new ArrayList<>();
+        for (String s : args)
+            if (!s.trim().isEmpty())
+                arrayList.add(s);
+        return arrayList.toArray(new String[0]);
+    }
     // Also adapted from JDAUtils
     private static ArrayList<String> splitMessage(String stringToSend) {
         ArrayList<String> msgs = new ArrayList<>();
