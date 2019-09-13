@@ -1,6 +1,7 @@
 package com.xuxe.falconHeavy.commands.misc;
 
 import com.xuxe.falconHeavy.FalconHeavy;
+import com.xuxe.falconHeavy.commands.Category;
 import com.xuxe.falconHeavy.framework.command.Command;
 import com.xuxe.falconHeavy.framework.command.CommandHandler;
 import com.xuxe.falconHeavy.framework.triggers.CommandTrigger;
@@ -26,21 +27,28 @@ public class HelpCommand extends Command {
             helpBuilder = getFullHelp();
         else
             helpBuilder = getHelp(trigger.getArgs(0));
+        if (helpBuilder == null) {
+            reactFail();
+            return;
+        }
+        helpBuilder.appendDescription("\n`In syntax, [optional] <mandatory>`");
         trigger.respond(helpBuilder.build());
     }
 
     private EmbedBuilder getFullHelp() {
         EmbedBuilder builder = new EmbedBuilder().setTitle("Commands available: ");
-        HashMap<String, String> categories = CommandHandler.getCategories();
-        for (Map.Entry<String, String> entry : categories.entrySet()) {
-            builder.addField(entry.getKey(), entry.getValue(), false);
+        HashMap<Category, String> categories = CommandHandler.getCategories();
+        for (Map.Entry<Category, String> entry : categories.entrySet()) {
+            builder.addField(entry.getKey().toString(), entry.getValue(), false);
         }
         builder.setColor(Color.GRAY);
         return builder;
     }
 
     private EmbedBuilder getHelp(String commandName) {
-        Command command = CommandHandler.getCommands().get(commandName);
+        Command command = CommandHandler.getCommands().get(commandName.toLowerCase());
+        if (command == null)
+            return null;
         EmbedBuilder builder = new EmbedBuilder();
         builder.setTitle(Character.toUpperCase(command.getName().charAt(0)) + command.getName().substring(1));
         builder.setColor(Color.DARK_GRAY);

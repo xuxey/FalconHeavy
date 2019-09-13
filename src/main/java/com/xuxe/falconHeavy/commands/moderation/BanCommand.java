@@ -1,5 +1,6 @@
 package com.xuxe.falconHeavy.commands.moderation;
 
+import com.xuxe.falconHeavy.commands.Category;
 import com.xuxe.falconHeavy.constants.Responses;
 import com.xuxe.falconHeavy.framework.command.Command;
 import com.xuxe.falconHeavy.framework.triggers.CommandTrigger;
@@ -18,9 +19,9 @@ public class BanCommand extends Command {
         this.name = "ban";
         this.help = "Bans a mentioned mentioned from the server";
         this.extraHelp = "Bans a user from the server, and deletes their messages from the past 7 days if specified as -hard";
-        this.category = "Moderation";
+        this.category = Category.Moderation;
         this.userPermissions = new Permission[]{Permission.BAN_MEMBERS};
-        this.syntax = "ban @user1 @user2 [userId] ... [reason]";
+        this.syntax = "ban @user1 @user2 [userId] ...[-hard] [reason]";
         this.privateAccessible = false;
     }
 

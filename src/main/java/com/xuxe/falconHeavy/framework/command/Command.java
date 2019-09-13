@@ -1,5 +1,6 @@
 package com.xuxe.falconHeavy.framework.command;
 
+import com.xuxe.falconHeavy.commands.Category;
 import com.xuxe.falconHeavy.constants.Responses;
 import com.xuxe.falconHeavy.framework.UserRank;
 import com.xuxe.falconHeavy.framework.command.cooldown.CooldownScope;
@@ -18,7 +19,7 @@ public abstract class Command {
     protected CooldownScope cooldownScope = CooldownScope.USER;
     protected Permission[] userPermissions = new Permission[]{};
     protected boolean privateAccessible = true;
-    protected String category = "Others";
+    protected Category category = Category.Miscellaneous;
     private CommandTrigger trigger;
     protected String syntax = "";
     protected UserRank rank = UserRank.DEFAULT;
@@ -44,7 +45,7 @@ public abstract class Command {
         return syntax;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 

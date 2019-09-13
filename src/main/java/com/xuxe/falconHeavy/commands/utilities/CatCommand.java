@@ -5,6 +5,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.async.Callback;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.xuxe.falconHeavy.commands.Category;
 import com.xuxe.falconHeavy.framework.command.Command;
 import com.xuxe.falconHeavy.framework.command.cooldown.CooldownScope;
 import com.xuxe.falconHeavy.framework.triggers.CommandTrigger;
@@ -22,7 +23,7 @@ public class CatCommand extends Command {
         this.syntax = "cat";
         this.cooldown = new int[]{6, 2};
         this.cooldownScope = CooldownScope.USER;
-        this.category = "Utility";
+        this.category = Category.Utilities;
     }
 
     @Override

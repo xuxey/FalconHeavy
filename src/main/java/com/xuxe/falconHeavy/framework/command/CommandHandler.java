@@ -1,6 +1,7 @@
 package com.xuxe.falconHeavy.framework.command;
 
 import com.xuxe.falconHeavy.FalconHeavy;
+import com.xuxe.falconHeavy.commands.Category;
 import com.xuxe.falconHeavy.constants.Responses;
 import com.xuxe.falconHeavy.database.framework.DBChecks;
 import com.xuxe.falconHeavy.database.framework.DBGuildSettings;
@@ -17,13 +18,13 @@ import java.util.Objects;
 
 public class CommandHandler {
     private static HashMap<String, Command> commands = new HashMap<>();
-    private static HashMap<String, String> categories = new HashMap<>();
+    private static HashMap<Category, String> categories = new HashMap<>();
 
     public static void removeCommand(String command) {
         commands.remove(command.toLowerCase());
     }
 
-    public static HashMap<String, String> getCategories() {
+    public static HashMap<Category, String> getCategories() {
         return categories;
     }
 

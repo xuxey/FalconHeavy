@@ -6,6 +6,7 @@ import com.xuxe.falconHeavy.commands.moderation.BanCommand;
 import com.xuxe.falconHeavy.commands.moderation.KickCommand;
 import com.xuxe.falconHeavy.commands.owner.eval.EvalCommand;
 import com.xuxe.falconHeavy.commands.utilities.CatCommand;
+import com.xuxe.falconHeavy.commands.utilities.JoinDateCommand;
 import com.xuxe.falconHeavy.commands.utilities.YoutubeCommand;
 import com.xuxe.falconHeavy.config.Config;
 import com.xuxe.falconHeavy.constants.FileNames;
@@ -67,6 +68,7 @@ public class FalconHeavy {
     private static void addUtilityCommands() {
         handler.addCommand(new YoutubeCommand());
         handler.addCommand(new CatCommand());
+        handler.addCommand(new JoinDateCommand());
     }
 
     private static void addOwnerCommands() {

@@ -214,4 +214,7 @@ public class CommandTrigger {
         event.getChannel().sendFile(file, filename).content(message).queue();
     }
 
+    public User getAuthor() {
+        return user;
+    }
 }

@@ -1,5 +1,6 @@
 package com.xuxe.falconHeavy.commands.moderation;
 
+import com.xuxe.falconHeavy.commands.Category;
 import com.xuxe.falconHeavy.constants.Responses;
 import com.xuxe.falconHeavy.framework.command.Command;
 import com.xuxe.falconHeavy.framework.triggers.CommandTrigger;
@@ -19,7 +20,7 @@ public class KickCommand extends Command {
         this.aliases = new String[]{"eject"};
         this.help = "Kicks a mentioned user from the server";
         this.extraHelp = "Kicks a user from the server";
-        this.category = "Moderation";
+        this.category = Category.Moderation;
         this.userPermissions = new Permission[]{Permission.KICK_MEMBERS};
         this.syntax = "kick @user1 @user2 [userId] ... [reason]";
         this.privateAccessible = false;
