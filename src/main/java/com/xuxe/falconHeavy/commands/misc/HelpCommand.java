@@ -21,7 +21,7 @@ public class HelpCommand extends Command {
 
     @Override
     public void run(CommandTrigger trigger) {
-        EmbedBuilder helpBuilder = new EmbedBuilder();
+        EmbedBuilder helpBuilder;
         if (trigger.getArgs().length == 0)
             helpBuilder = getFullHelp();
         else
@@ -49,10 +49,17 @@ public class HelpCommand extends Command {
             builder.setDescription(command.getExtraHelp());
         else
             builder.setDescription(command.getHelp());
+        StringBuilder aliases = new StringBuilder();
+        if (command.getAliases().length > 0)
+            for (String s : command.getAliases()) {
+                aliases.append('`').append(s).append("`, ");
+            }
         if (!command.getSyntax().isEmpty())
             builder.appendDescription("```yaml\n" + FalconHeavy.getConfig().prefix + command.getSyntax() + "```");
         if (!command.getHelpImageLink().isEmpty())
             builder.setImage(command.getHelpImageLink());
+        if (!aliases.toString().isEmpty())
+            builder.appendDescription("**Aliases:** " + aliases.subSequence(0, aliases.length() - 2).toString());
         return builder;
     }
 }

@@ -1,6 +1,7 @@
 package com.xuxe.falconHeavy.framework.command;
 
 import com.xuxe.falconHeavy.constants.Responses;
+import com.xuxe.falconHeavy.framework.UserRank;
 import com.xuxe.falconHeavy.framework.command.cooldown.CooldownScope;
 import com.xuxe.falconHeavy.framework.triggers.CommandTrigger;
 import net.dv8tion.jda.api.Permission;
@@ -20,6 +21,8 @@ public abstract class Command {
     protected String category = "Others";
     private CommandTrigger trigger;
     protected String syntax = "";
+    protected UserRank rank = UserRank.DEFAULT;
+
     void checkRun(CommandTrigger trigger) {
         this.trigger = trigger;
         try {
@@ -31,6 +34,10 @@ public abstract class Command {
             reactFail(trigger.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public UserRank getRank() {
+        return rank;
     }
 
     public String getSyntax() {

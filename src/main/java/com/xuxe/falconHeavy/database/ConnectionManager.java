@@ -33,7 +33,7 @@ public class ConnectionManager {
 
     private static boolean connect() {
         try {
-            System.out.println("Connecting to Database: " + FalconHeavy.getConfig().getUrl() + " " + FalconHeavy.getConfig().getSqlID() + " " + FalconHeavy.getConfig().getSqlPassword());
+            System.out.println("Connecting to Database: " + FalconHeavy.getConfig().getUrl());
             connection = DriverManager.getConnection(FalconHeavy.getConfig().getUrl(),
                     FalconHeavy.getConfig().getSqlID(),
                     FalconHeavy.getConfig().getSqlPassword());

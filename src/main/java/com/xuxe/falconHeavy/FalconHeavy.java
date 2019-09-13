@@ -4,6 +4,7 @@ import com.xuxe.falconHeavy.commands.misc.HelpCommand;
 import com.xuxe.falconHeavy.commands.misc.PingCommand;
 import com.xuxe.falconHeavy.commands.moderation.BanCommand;
 import com.xuxe.falconHeavy.commands.moderation.KickCommand;
+import com.xuxe.falconHeavy.commands.owner.eval.EvalCommand;
 import com.xuxe.falconHeavy.commands.utilities.YoutubeCommand;
 import com.xuxe.falconHeavy.config.Config;
 import com.xuxe.falconHeavy.constants.FileNames;
@@ -40,6 +41,7 @@ public class FalconHeavy {
         addMiscCommands();
         addModerationCommands();
         addUtilityCommands();
+        addOwnerCommands();
     }
 
     public static JDA getJda() {
@@ -64,4 +66,7 @@ public class FalconHeavy {
         handler.addCommand(new YoutubeCommand());
     }
 
+    private static void addOwnerCommands() {
+        handler.addCommand(new EvalCommand());
+    }
 }

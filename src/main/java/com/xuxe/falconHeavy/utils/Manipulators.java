@@ -43,4 +43,16 @@ public class Manipulators {
             return false;
         }
     }
+
+    public static boolean rankCheck(UserRank required, UserRank actual) {
+        return rankLevelParser(required) >= rankLevelParser(actual);
+    }
+
+    private static int rankLevelParser(UserRank rank) {
+        if (rank.equals(UserRank.ADMIN))
+            return 3;
+        if (rank.equals(UserRank.DEFAULT))
+            return 2;
+        return 1;
+    }
 }

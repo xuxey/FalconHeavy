@@ -6,6 +6,7 @@ import com.xuxe.falconHeavy.database.framework.DBChecks;
 import com.xuxe.falconHeavy.database.framework.DBGuildSettings;
 import com.xuxe.falconHeavy.framework.command.cooldown.Cooldown;
 import com.xuxe.falconHeavy.framework.triggers.CommandTrigger;
+import com.xuxe.falconHeavy.utils.Manipulators;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -72,7 +73,15 @@ public class CommandHandler {
             event.getChannel().sendMessage(Responses.GUILD_DISABLED_COMMAND).queue();
             return;
         }
-
+        // Rank check
+        if (!Manipulators.rankCheck(command.getRank(), trigger.getRank())) {
+            event.getChannel().sendMessage("You must be rank `" +
+                    command.getRank().toString().charAt(0) + command.getRank().toString().substring(1) +
+                    "` or above to use this command.").queue();
+            command.reactFail();
+            return;
+        }
+        if (DBChecks.getRank(event.getAuthor().getId()).equals(command.getRank()))
         // Permissions check
         if (!event.getChannelType().equals(ChannelType.PRIVATE)) {
             try {
