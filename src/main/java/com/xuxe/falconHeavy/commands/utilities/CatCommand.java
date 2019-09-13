@@ -20,7 +20,7 @@ public class CatCommand extends Command {
         this.help = "Gets a random picture of a cat";
         this.extraHelp = this.help + " from [here](http://aws.random.cat/meow)\n";
         this.syntax = "cat";
-        this.cooldown = new int[]{6, 2,};
+        this.cooldown = new int[]{6, 2};
         this.cooldownScope = CooldownScope.USER;
         this.category = "Utility";
     }
