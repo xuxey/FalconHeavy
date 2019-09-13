@@ -33,6 +33,7 @@ public class CommandHandler {
     public void addCommand(Command command) {
         if (command.getName().equals("")) return;
         commands.put(command.getName().trim().toLowerCase(), command);
+        DBGuildSettings.addColumn(command.getName().trim());
         String[] aliases = command.aliases;
         Cooldown.addStartupCommand(command);
         for (String alias : aliases) {
@@ -69,6 +70,7 @@ public class CommandHandler {
         // guild settings check
         if (DBGuildSettings.isDisabled(command, trigger)) {
             event.getChannel().sendMessage(Responses.GUILD_DISABLED_COMMAND).queue();
+            return;
         }
 
         // Permissions check

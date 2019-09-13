@@ -1,5 +1,6 @@
 package com.xuxe.falconHeavy.framework.triggers;
 
+import com.xuxe.falconHeavy.FalconHeavy;
 import com.xuxe.falconHeavy.database.framework.DBChecks;
 import com.xuxe.falconHeavy.framework.UserRank;
 import net.dv8tion.jda.api.JDA;
@@ -9,6 +10,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 import static com.xuxe.falconHeavy.constants.Constants.MAX_MESSAGES;
@@ -33,9 +35,10 @@ public class CommandTrigger {
 
     public CommandTrigger(MessageReceivedEvent event) {
         this.message = event.getMessage();
-        this.fullArgs = getTrimmedArgs(message.getContentRaw());
+        this.fullArgs = getTrimmedArgs(message.getContentRaw().substring(message.getContentRaw().indexOf(FalconHeavy.getConfig().prefix) + 1));
         this.args = popArray(fullArgs);
         this.label = fullArgs[0];
+        this.string = message.getContentRaw().split(label).length > 0 ? message.getContentRaw().split(label)[1] : "";
         if (event.isFromGuild())
             this.guild = event.getGuild();
         else
@@ -46,7 +49,7 @@ public class CommandTrigger {
         this.user = event.getAuthor();
         this.rank = DBChecks.getRank(user.getId());
         this.jda = event.getJDA();
-        this.string = message.getContentRaw().split(label).length > 0 ? message.getContentRaw().split(label)[1] : "";
+        System.out.println(Arrays.toString(fullArgs));
     }
     // Getters
     public boolean isPrivate() {

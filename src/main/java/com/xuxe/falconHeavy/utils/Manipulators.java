@@ -29,9 +29,8 @@ public class Manipulators {
         string = string.trim();
         if (!string.startsWith("<@") || !string.endsWith(">"))
             return false;
-        System.out.println("---------BEFORE " + string);
         string = string.substring(2, string.length() - 1);
-        System.out.println("AFTER: " + string);
+        string = string.replace("!", "");
         JDA jda = FalconHeavy.getJda();
         return jda.getUserById(string) != null;
     }

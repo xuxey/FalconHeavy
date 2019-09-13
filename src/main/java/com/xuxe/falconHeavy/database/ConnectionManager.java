@@ -13,8 +13,10 @@ public class ConnectionManager {
         try {
             return connection.isValid(5);
         } catch (SQLException | NullPointerException e) {
-            return false;
+            System.out.println("Connection invalid!!");
+            System.exit(0);
         }
+        return false;
     }
 
     public static Connection getConnection() {
@@ -25,9 +27,13 @@ public class ConnectionManager {
         return null;
     }
 
+    public static void initializeConnection() {
+        connect();
+    }
+
     private static boolean connect() {
         try {
-            System.out.println("Connecting to Database: " + FalconHeavy.getConfig().getUrl());
+            System.out.println("Connecting to Database: " + FalconHeavy.getConfig().getUrl() + " " + FalconHeavy.getConfig().getSqlID() + " " + FalconHeavy.getConfig().getSqlPassword());
             connection = DriverManager.getConnection(FalconHeavy.getConfig().getUrl(),
                     FalconHeavy.getConfig().getSqlID(),
                     FalconHeavy.getConfig().getSqlPassword());

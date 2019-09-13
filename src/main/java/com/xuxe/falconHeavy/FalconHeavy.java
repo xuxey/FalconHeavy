@@ -4,8 +4,10 @@ import com.xuxe.falconHeavy.commands.misc.HelpCommand;
 import com.xuxe.falconHeavy.commands.misc.PingCommand;
 import com.xuxe.falconHeavy.commands.moderation.BanCommand;
 import com.xuxe.falconHeavy.commands.moderation.KickCommand;
+import com.xuxe.falconHeavy.commands.utilities.YoutubeCommand;
 import com.xuxe.falconHeavy.config.Config;
 import com.xuxe.falconHeavy.constants.FileNames;
+import com.xuxe.falconHeavy.database.ConnectionManager;
 import com.xuxe.falconHeavy.framework.command.CommandHandler;
 import com.xuxe.falconHeavy.framework.listeners.MessageReceivers;
 import net.dv8tion.jda.api.JDA;
@@ -23,19 +25,21 @@ public class FalconHeavy {
     private static JDA jda;
     private static CommandHandler handler;
     FalconHeavy() {
-        handler = new CommandHandler();
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException {
         logger.info("Falcon Heavy is starting");
         // load config
         config = reload(FileNames.CONFIG_MAIN);
-        assert config != null;
+        if (config == null)
+            System.exit(1);
         jda = new JDABuilder(config.getToken()).build().awaitReady();
         jda.addEventListener(new MessageReceivers());
-        handler.addCommand(new PingCommand());
-        handler.addCommand(new HelpCommand());
-
+        ConnectionManager.initializeConnection();
+        handler = new CommandHandler();
+        addMiscCommands();
+        addModerationCommands();
+        addUtilityCommands();
     }
 
     public static JDA getJda() {
@@ -46,8 +50,18 @@ public class FalconHeavy {
         return config;
     }
 
-    private void addModerationCommands() {
+    private static void addModerationCommands() {
         handler.addCommand(new BanCommand());
         handler.addCommand(new KickCommand());
     }
+
+    private static void addMiscCommands() {
+        handler.addCommand(new PingCommand());
+        handler.addCommand(new HelpCommand());
+    }
+
+    private static void addUtilityCommands() {
+        handler.addCommand(new YoutubeCommand());
+    }
+
 }
