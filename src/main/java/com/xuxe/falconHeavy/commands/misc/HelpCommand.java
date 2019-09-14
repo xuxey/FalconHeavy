@@ -26,7 +26,7 @@ public class HelpCommand extends Command {
         if (trigger.getArgs().length == 0)
             helpBuilder = getFullHelp();
         else
-            helpBuilder = getHelp(trigger.getArgs(0));
+            helpBuilder = getCommandHelp(trigger.getArgs(0));
         if (helpBuilder == null) {
             reactFail();
             return;
@@ -45,7 +45,7 @@ public class HelpCommand extends Command {
         return builder;
     }
 
-    private EmbedBuilder getHelp(String commandName) {
+    private EmbedBuilder getCommandHelp(String commandName) {
         Command command = CommandHandler.getCommands().get(commandName.toLowerCase());
         if (command == null)
             return null;

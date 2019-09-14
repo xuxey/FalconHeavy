@@ -1,10 +1,11 @@
 package com.xuxe.falconHeavy;
 
+import com.xuxe.falconHeavy.commands.admin.eval.EvalCommand;
+import com.xuxe.falconHeavy.commands.admin.eval.NashornEvalCommand;
 import com.xuxe.falconHeavy.commands.misc.HelpCommand;
 import com.xuxe.falconHeavy.commands.misc.PingCommand;
 import com.xuxe.falconHeavy.commands.moderation.BanCommand;
 import com.xuxe.falconHeavy.commands.moderation.KickCommand;
-import com.xuxe.falconHeavy.commands.owner.eval.EvalCommand;
 import com.xuxe.falconHeavy.commands.utilities.CatCommand;
 import com.xuxe.falconHeavy.commands.utilities.JoinDateCommand;
 import com.xuxe.falconHeavy.commands.utilities.YoutubeCommand;
@@ -73,5 +74,6 @@ public class FalconHeavy {
 
     private static void addOwnerCommands() {
         handler.addCommand(new EvalCommand());
+        handler.addCommand(new NashornEvalCommand());
     }
 }

@@ -34,7 +34,7 @@ public class KickCommand extends Command {
             return;
         }
         String[] args = trigger.getArgs();
-        ArrayList<Member> mentionedMembers = new ArrayList<Member>(trigger.getMessage().getMentionedMembers());
+        ArrayList<Member> mentionedMembers = new ArrayList<>(trigger.getMessage().getMentionedMembers());
         StringBuilder reason = new StringBuilder();
         for (String s : args) {
             if (Manipulators.isMention(s)) continue;

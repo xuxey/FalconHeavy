@@ -1,4 +1,4 @@
-package com.xuxe.falconHeavy.commands.owner.eval;
+package com.xuxe.falconHeavy.commands.admin.eval;
 
 import com.xuxe.falconHeavy.FalconHeavy;
 import com.xuxe.falconHeavy.commands.Category;
@@ -24,7 +24,7 @@ public class EvalCommand extends Command {
         this.rank = UserRank.ADMIN;
         this.help = "A nice eval based on Groovy Engine";
         this.syntax = "eval <code>";
-        this.category = Category.Owner;
+        this.category = Category.Admin;
     }
 
     @Override

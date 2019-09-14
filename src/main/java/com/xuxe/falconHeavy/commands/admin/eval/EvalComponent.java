@@ -1,4 +1,4 @@
-package com.xuxe.falconHeavy.commands.owner.eval;
+package com.xuxe.falconHeavy.commands.admin.eval;
 
 import com.xuxe.falconHeavy.FalconHeavy;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
