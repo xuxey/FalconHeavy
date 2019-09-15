@@ -9,6 +9,7 @@ import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import com.xuxe.falconHeavy.FalconHeavy;
 import com.xuxe.falconHeavy.commands.Category;
+import com.xuxe.falconHeavy.framework.UserRank;
 import com.xuxe.falconHeavy.framework.command.Command;
 import com.xuxe.falconHeavy.framework.command.cooldown.CooldownScope;
 import com.xuxe.falconHeavy.framework.triggers.CommandTrigger;
@@ -23,6 +24,7 @@ public class YoutubeCommand extends Command {
         this.category = Category.Utilities;
         this.cooldownScope = CooldownScope.USER;
         this.cooldown = new int[]{5, 1};
+        this.rank = UserRank.DONATOR;
     }
 
     @Override

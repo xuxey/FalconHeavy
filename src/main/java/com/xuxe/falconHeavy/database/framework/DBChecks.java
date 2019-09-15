@@ -15,8 +15,7 @@ public class DBChecks {
         Connection connection = ConnectionManager.getConnection();
         try {
             assert connection != null;
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT user_rank FROM users WHERE uid = ?;");
-            preparedStatement.setString(1, userID.trim());
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT user_rank FROM users WHERE uid = " + userID.trim());
             ResultSet set = preparedStatement.executeQuery();
             set.first();
             return Manipulators.rankParser(set.getString("user_rank"));

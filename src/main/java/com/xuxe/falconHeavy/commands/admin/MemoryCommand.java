@@ -17,10 +17,10 @@ public class MemoryCommand extends Command {
     @Override
     public void run(CommandTrigger trigger) {
         int dataSize = 1024 * 1024;
-        String builder = "Used Memory   : " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / dataSize + " MB" +
-                "Free Memory   : " + Runtime.getRuntime().freeMemory() / dataSize + " MB" +
-                "Total Memory  : " + Runtime.getRuntime().totalMemory() / dataSize + " MB" +
-                "Max Memory    : " + Runtime.getRuntime().maxMemory() / dataSize + " MB";
+        String builder = "Used Memory   : " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / dataSize + " MB\n" +
+                "Free Memory    : " + Runtime.getRuntime().freeMemory() / dataSize + " MB\n" +
+                "Total Memory   : " + Runtime.getRuntime().totalMemory() / dataSize + " MB\n" +
+                "Max Memory    : " + Runtime.getRuntime().maxMemory() / dataSize + " MB\n";
         trigger.respond(builder);
     }
 }

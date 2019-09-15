@@ -31,7 +31,6 @@ public class HelpCommand extends Command {
             reactFail();
             return;
         }
-        helpBuilder.appendDescription("\n`In syntax, [optional] <mandatory>`");
         trigger.respond(helpBuilder.build());
     }
 
@@ -68,6 +67,7 @@ public class HelpCommand extends Command {
             builder.setImage(command.getHelpImageLink());
         if (!aliases.toString().isEmpty())
             builder.appendDescription("**Aliases:** " + aliases.subSequence(0, aliases.length() - 2).toString());
+        builder.appendDescription("\n`In syntax, [optional] <mandatory>`");
         return builder;
     }
 }

@@ -1,11 +1,14 @@
 package com.xuxe.falconHeavy;
 
+import com.xuxe.falconHeavy.commands.admin.MemoryCommand;
+import com.xuxe.falconHeavy.commands.admin.PresenceCommand;
 import com.xuxe.falconHeavy.commands.admin.eval.EvalCommand;
 import com.xuxe.falconHeavy.commands.admin.eval.NashornEvalCommand;
 import com.xuxe.falconHeavy.commands.misc.HelpCommand;
 import com.xuxe.falconHeavy.commands.misc.PingCommand;
 import com.xuxe.falconHeavy.commands.moderation.BanCommand;
 import com.xuxe.falconHeavy.commands.moderation.KickCommand;
+import com.xuxe.falconHeavy.commands.moderation.PurgeCommand;
 import com.xuxe.falconHeavy.commands.utilities.CatCommand;
 import com.xuxe.falconHeavy.commands.utilities.JoinDateCommand;
 import com.xuxe.falconHeavy.commands.utilities.YoutubeCommand;
@@ -45,7 +48,7 @@ public class FalconHeavy {
         addMiscCommands();
         addModerationCommands();
         addUtilityCommands();
-        addOwnerCommands();
+        addAdminCommands();
     }
 
     public static JDA getJda() {
@@ -59,6 +62,7 @@ public class FalconHeavy {
     private static void addModerationCommands() {
         handler.addCommand(new BanCommand());
         handler.addCommand(new KickCommand());
+        handler.addCommand(new PurgeCommand());
     }
 
     private static void addMiscCommands() {
@@ -72,8 +76,10 @@ public class FalconHeavy {
         handler.addCommand(new JoinDateCommand());
     }
 
-    private static void addOwnerCommands() {
+    private static void addAdminCommands() {
         handler.addCommand(new EvalCommand());
         handler.addCommand(new NashornEvalCommand());
+        handler.addCommand(new PresenceCommand());
+        handler.addCommand(new MemoryCommand());
     }
 }

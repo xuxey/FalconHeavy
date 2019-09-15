@@ -37,7 +37,7 @@ public class CommandTrigger {
         this.fullArgs = getTrimmedArgs(message.getContentRaw().substring(message.getContentRaw().indexOf(FalconHeavy.getConfig().prefix) + 1));
         this.args = popArray(fullArgs);
         this.label = fullArgs[0];
-        this.string = message.getContentRaw().split(label).length > 0 ? message.getContentRaw().split(label)[1] : "";
+        this.string = message.getContentRaw().split(label).length > 1 ? message.getContentRaw().split(label)[1] : "";
         if (event.isFromGuild())
             this.guild = event.getGuild();
         else

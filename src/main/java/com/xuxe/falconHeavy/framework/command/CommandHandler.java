@@ -79,10 +79,9 @@ public class CommandHandler {
             event.getChannel().sendMessage("You must be rank `" +
                     command.getRank().toString().charAt(0) + command.getRank().toString().substring(1) +
                     "` or above to use this command.").queue();
-            command.reactFail();
+            command.reactFail(trigger.getMessage());
             return;
         }
-        if (DBChecks.getRank(event.getAuthor().getId()).equals(command.getRank()))
         // Permissions check
         if (!event.getChannelType().equals(ChannelType.PRIVATE)) {
             try {
