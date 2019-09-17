@@ -17,6 +17,11 @@ public class Config {
     private String sqlID;
     private String sqlPassword;
     private String url;
+    private String presence;
+
+    public String getPresence() {
+        return presence;
+    }
 
     public String getPrefix() {
         return prefix;

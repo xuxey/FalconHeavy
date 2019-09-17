@@ -21,6 +21,8 @@ import com.xuxe.falconHeavy.framework.command.waiter.EventWaiter;
 import com.xuxe.falconHeavy.framework.listeners.MessageReceivers;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,6 +45,7 @@ public class FalconHeavy {
             System.exit(1);
         jda = new JDABuilder(config.getToken()).build().awaitReady();
         jda.addEventListener(new MessageReceivers());
+        jda.getPresence().setPresence(OnlineStatus.ONLINE, Activity.watching(FalconHeavy.getConfig().getPresence()));
         waiter = new EventWaiter();
         jda.addEventListener(waiter);
         ConnectionManager.initializeConnection();
