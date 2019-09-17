@@ -42,7 +42,7 @@ public class TriviaCommand extends Command {
                 trigger.respond("Oops, something went wrong!");
                 return;
             }
-            trivia.setColor(Color.BLUE);
+            trivia.setColor(Color.DARK_GRAY);
             trivia.setDescription(triviaInstance.getQuestion());
             if (triviaInstance.getType().equals("multiple")) {
                 trivia.appendDescription("\n" + triviaInstance.getAll_answers());
