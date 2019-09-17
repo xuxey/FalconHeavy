@@ -4,6 +4,7 @@ import com.xuxe.falconHeavy.commands.admin.MemoryCommand;
 import com.xuxe.falconHeavy.commands.admin.PresenceCommand;
 import com.xuxe.falconHeavy.commands.admin.eval.EvalCommand;
 import com.xuxe.falconHeavy.commands.admin.eval.NashornEvalCommand;
+import com.xuxe.falconHeavy.commands.fun.trivia.TriviaCommand;
 import com.xuxe.falconHeavy.commands.misc.HelpCommand;
 import com.xuxe.falconHeavy.commands.misc.PingCommand;
 import com.xuxe.falconHeavy.commands.moderation.BanCommand;
@@ -16,6 +17,7 @@ import com.xuxe.falconHeavy.config.Config;
 import com.xuxe.falconHeavy.constants.FileNames;
 import com.xuxe.falconHeavy.database.ConnectionManager;
 import com.xuxe.falconHeavy.framework.command.CommandHandler;
+import com.xuxe.falconHeavy.framework.command.waiter.EventWaiter;
 import com.xuxe.falconHeavy.framework.listeners.MessageReceivers;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -31,8 +33,7 @@ public class FalconHeavy {
     private static Config config;
     private static JDA jda;
     private static CommandHandler handler;
-    FalconHeavy() {
-    }
+    private static EventWaiter waiter;
 
     public static void main(String[] args) throws LoginException, InterruptedException {
         logger.info("Falcon Heavy is starting");
@@ -42,6 +43,8 @@ public class FalconHeavy {
             System.exit(1);
         jda = new JDABuilder(config.getToken()).build().awaitReady();
         jda.addEventListener(new MessageReceivers());
+        waiter = new EventWaiter();
+        jda.addEventListener(waiter);
         ConnectionManager.initializeConnection();
         handler = new CommandHandler();
         // Caveman style command initializing
@@ -49,6 +52,7 @@ public class FalconHeavy {
         addModerationCommands();
         addUtilityCommands();
         addAdminCommands();
+        addFunCommands();
     }
 
     public static JDA getJda() {
@@ -81,5 +85,13 @@ public class FalconHeavy {
         handler.addCommand(new NashornEvalCommand());
         handler.addCommand(new PresenceCommand());
         handler.addCommand(new MemoryCommand());
+    }
+
+    private static void addFunCommands() {
+        handler.addCommand(new TriviaCommand());
+    }
+
+    public static EventWaiter getWaiter() {
+        return waiter;
     }
 }
