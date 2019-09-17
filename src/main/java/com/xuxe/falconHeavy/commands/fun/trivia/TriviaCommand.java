@@ -3,6 +3,7 @@ package com.xuxe.falconHeavy.commands.fun.trivia;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.xuxe.falconHeavy.FalconHeavy;
+import com.xuxe.falconHeavy.commands.Category;
 import com.xuxe.falconHeavy.database.points.Points;
 import com.xuxe.falconHeavy.framework.command.Command;
 import com.xuxe.falconHeavy.framework.command.cooldown.CooldownScope;
@@ -30,6 +31,8 @@ public class TriviaCommand extends Command {
         this.cooldown = new int[]{10, 5};
         this.cooldownScope = CooldownScope.USER;
         this.waiter = FalconHeavy.getWaiter();
+        this.category = Category.Fun;
+        this.syntax = "trivia";
     }
 
     @Override

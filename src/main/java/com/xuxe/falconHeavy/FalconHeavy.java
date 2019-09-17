@@ -45,7 +45,7 @@ public class FalconHeavy {
             System.exit(1);
         jda = new JDABuilder(config.getToken()).build().awaitReady();
         jda.addEventListener(new MessageReceivers());
-        jda.getPresence().setPresence(OnlineStatus.ONLINE, Activity.watching(FalconHeavy.getConfig().getPresence()));
+        jda.getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB, Activity.watching(FalconHeavy.getConfig().getPresence()));
         waiter = new EventWaiter();
         jda.addEventListener(waiter);
         ConnectionManager.initializeConnection();
