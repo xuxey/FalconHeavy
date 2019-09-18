@@ -15,7 +15,7 @@ public abstract class Command {
     protected String name = "";
     protected String[] aliases = new String[]{};
     protected String help = "Help not available.";
-    protected String extraHelp = "Extra help not available.";
+    protected String extraHelp = "";
     protected String helpImageLink = "";
     protected int[] cooldown = {0, 0};
     protected CooldownScope cooldownScope = CooldownScope.USER;

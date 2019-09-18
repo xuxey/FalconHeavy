@@ -53,7 +53,7 @@ public class CommandHandler {
             categoryList = command.getName();
             categories.put(command.getCategory(), categoryList);
         }
-        System.out.println("Registered command: " + command.getName());
+        //System.out.println("Registered command: " + command.getName());
     }
 
     public void onCommand(String commandName, MessageReceivedEvent event) {
@@ -76,9 +76,9 @@ public class CommandHandler {
         }
         // Rank check
         if (!Manipulators.rankCheck(command.getRank(), trigger.getRank())) {
-            event.getChannel().sendMessage("You must be rank `" +
-                    command.getRank().toString().charAt(0) + command.getRank().toString().substring(1) +
-                    "` or above to use this command.").queue();
+            event.getChannel().sendMessage("You must be rank " +
+                    command.getRank().toString().charAt(0) + command.getRank().toString().substring(1).toLowerCase() +
+                    " or above to use this command.").queue();
             command.reactFail(trigger.getMessage());
             return;
         }

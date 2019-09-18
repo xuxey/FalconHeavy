@@ -38,53 +38,47 @@ public class TriviaCommand extends Command {
     @Override
     public void run(CommandTrigger trigger) {
         Points points = new Points();
-        try {
-            EmbedBuilder trivia = new EmbedBuilder().setTitle("**Tr?via**");
-            TriviaInstance triviaInstance = generate();
-            if (triviaInstance == null) {
-                trigger.respond("Oops, something went wrong!");
-                return;
-            }
-            trivia.setColor(Color.DARK_GRAY);
-            trivia.setDescription(triviaInstance.getQuestion());
-            if (triviaInstance.getType().equals("multiple")) {
-                trivia.appendDescription("\n" + triviaInstance.getAll_answers());
-            } else {
-                trivia.appendDescription("True or False? ");
-            }
-            trivia.setFooter("Level: " + triviaInstance.getDifficulty() + " | " + triviaInstance.getCategory(), null);
-            String answer = triviaInstance.getCorrect_answer();
-            trigger.getChannel().sendMessage(trivia.build()).queue
-                    (
-                            e -> waiter.waitForEvent(
-                                    MessageReceivedEvent.class,
-                                    evt -> evt.getAuthor().equals(trigger.getAuthor()) && evt.getChannel().equals(trigger.getChannel()),
-                                    evt -> {
-                                        String content = evt.getMessage().getContentRaw();
-                                        if (content.toLowerCase().contains(answer.toLowerCase()) || content.toLowerCase().equalsIgnoreCase("" + triviaInstance.getCorrectAnswerLetter())) {
-                                            points.addPoints(evt.getAuthor().getId(), triviaInstance.getPoints());
-                                            trigger.getChannel().sendMessage("Correct! You have won: " + triviaInstance.getPoints() + " point(s)!").queue();
-                                        } else {
-                                            if (new Random().ints(1, (10 + 1)).limit(1).findFirst().getAsInt() > 2)
-                                                trigger.respond("Wrong! The answer was: " + answer + ".");
-                                            else {
-                                                trigger.respond("Wrong!The answer was: " + answer + ". You lose a point :(");
-                                                points.removePoints(evt.getAuthor().getId(), 1);
-                                            }
-                                        }
-                                    },
-                                    15,
-                                    TimeUnit.SECONDS,
-                                    () -> trigger.respond("Sorry, you took too long.")),
-                            e -> {
-                            }
-                    );
-
-
-        } catch (Exception e) {
-            trigger.respond("Error occurred.");
-            e.printStackTrace();
+        EmbedBuilder trivia = new EmbedBuilder().setTitle("**Tr?via**");
+        TriviaInstance triviaInstance = generate();
+        if (triviaInstance == null) {
+            trigger.respond("Oops, something went wrong!");
+            return;
         }
+        trivia.setColor(Color.DARK_GRAY);
+        trivia.setDescription(triviaInstance.getQuestion());
+        if (triviaInstance.getType().equals("multiple")) {
+            trivia.appendDescription("\n" + triviaInstance.getAll_answers());
+        } else {
+            trivia.appendDescription("True or False? ");
+        }
+        trivia.setFooter("Level: " + triviaInstance.getDifficulty() + " | " + triviaInstance.getCategory(), null);
+        String answer = triviaInstance.getCorrect_answer();
+        trigger.getChannel().sendMessage(trivia.build()).queue
+                (
+                        e -> waiter.waitForEvent(
+                                MessageReceivedEvent.class,
+                                evt -> evt.getAuthor().equals(trigger.getAuthor()) && evt.getChannel().equals(trigger.getChannel()),
+                                evt -> {
+                                    String content = evt.getMessage().getContentRaw();
+                                    if (content.toLowerCase().contains(answer.toLowerCase()) || content.toLowerCase().equalsIgnoreCase("" + triviaInstance.getCorrectAnswerLetter())) {
+                                        points.addPoints(evt.getAuthor().getId(), triviaInstance.getPoints());
+                                        trigger.getChannel().sendMessage("Correct! You have won: " + triviaInstance.getPoints() + " point(s)!").queue();
+                                    } else {
+                                        //noinspection OptionalGetWithoutIsPresent
+                                        if (new Random().ints(1, (10 + 1)).limit(1).findFirst().getAsInt() > 2)
+                                            trigger.respond("Wrong! The answer was: " + answer + ".");
+                                        else {
+                                            trigger.respond("Wrong!The answer was: " + answer + ". You lose a point :(");
+                                            points.removePoints(evt.getAuthor().getId(), 1);
+                                        }
+                                    }
+                                },
+                                15,
+                                TimeUnit.SECONDS,
+                                () -> trigger.respond("Sorry, you took too long.")),
+                        e -> {
+                        }
+                );
     }
 
     private TriviaInstance generate() {

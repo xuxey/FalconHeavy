@@ -48,7 +48,7 @@ public class YoutubeCommand extends Command {
 
             SearchResult searchResult = searchResponse.getItems().get(0);
             if (searchResult.getId().getKind().equals("youtube#video")) {
-                trigger.respond("Top search result: https://www.youtube.com/watch?v=" + searchResult.getId().getVideoId() + "\n" + trigger.getUser().getAsMention());
+                trigger.respond("https://www.youtube.com/watch?v=" + searchResult.getId().getVideoId());
             } else {
                 trigger.respond("Something went wrong");//add loop if this is true
             }

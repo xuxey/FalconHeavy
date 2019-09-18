@@ -4,6 +4,8 @@ import com.xuxe.falconHeavy.commands.admin.MemoryCommand;
 import com.xuxe.falconHeavy.commands.admin.PresenceCommand;
 import com.xuxe.falconHeavy.commands.admin.eval.EvalCommand;
 import com.xuxe.falconHeavy.commands.admin.eval.NashornEvalCommand;
+import com.xuxe.falconHeavy.commands.fun.DiceCommand;
+import com.xuxe.falconHeavy.commands.fun.FactCommand;
 import com.xuxe.falconHeavy.commands.fun.trivia.TriviaCommand;
 import com.xuxe.falconHeavy.commands.misc.HelpCommand;
 import com.xuxe.falconHeavy.commands.misc.PingCommand;
@@ -12,6 +14,7 @@ import com.xuxe.falconHeavy.commands.moderation.KickCommand;
 import com.xuxe.falconHeavy.commands.moderation.PurgeCommand;
 import com.xuxe.falconHeavy.commands.utilities.CatCommand;
 import com.xuxe.falconHeavy.commands.utilities.JoinDateCommand;
+import com.xuxe.falconHeavy.commands.utilities.LyricsCommand;
 import com.xuxe.falconHeavy.commands.utilities.YoutubeCommand;
 import com.xuxe.falconHeavy.config.Config;
 import com.xuxe.falconHeavy.constants.FileNames;
@@ -81,6 +84,7 @@ public class FalconHeavy {
         handler.addCommand(new YoutubeCommand());
         handler.addCommand(new CatCommand());
         handler.addCommand(new JoinDateCommand());
+        handler.addCommand(new LyricsCommand());
     }
 
     private static void addAdminCommands() {
@@ -92,6 +96,8 @@ public class FalconHeavy {
 
     private static void addFunCommands() {
         handler.addCommand(new TriviaCommand());
+        handler.addCommand(new DiceCommand());
+        handler.addCommand(new FactCommand());
     }
 
     public static EventWaiter getWaiter() {
