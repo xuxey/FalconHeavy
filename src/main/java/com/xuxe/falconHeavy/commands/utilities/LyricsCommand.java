@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class LyricsCommand extends Command {
     private EventWaiter waiter;
@@ -35,8 +36,10 @@ public class LyricsCommand extends Command {
     @Override
     public void run(CommandTrigger trigger) {
         try {
+            trigger.getChannel().sendTyping().queue();
             LyricsClient client = new LyricsClient();
             Lyrics lyric = client.getLyrics(trigger.getString()).get();
+            System.out.println(lyric.getContent());
             int splitLength = 600;
             trigger.getChannel().sendMessage(getEmbed(1, lyric, splitLength)).queue(success -> {
                 addReactions(success, lyric, splitLength);
@@ -53,19 +56,18 @@ public class LyricsCommand extends Command {
     }
 
     private void paginate(@NotNull Message success, Lyrics lyric, CommandTrigger trigger, int splitLength, long end) {
-        if (end <= System.currentTimeMillis()) {
-            success.clearReactions().queue();
-            return;
-        }
         waiter.waitForEvent(
                 MessageReactionAddEvent.class,
-                reactAddEvent -> reactAddEvent.getMessageId().equals(success.getId()) && reactAddEvent.getUser().getId().equals(trigger.getUser().getId()),
+                reactAddEvent -> (end > System.currentTimeMillis()) && (reactAddEvent.getMessageId().equals(success.getId())) && (reactAddEvent.getUser().getId().equals(trigger.getUser().getId())),
                 reactAddEvent -> {
                     int page = getPageFromEmote(reactAddEvent.getReaction().getReactionEmote().getName());
                     success.editMessage(getEmbed(page, lyric, splitLength)).queue();
                     reactAddEvent.getReaction().removeReaction(trigger.getUser()).queue();
                     paginate(success, lyric, trigger, splitLength, end);
-                }
+                },
+                end - System.currentTimeMillis(),
+                TimeUnit.MILLISECONDS,
+                () -> success.clearReactions().queue()
         );
     }
 
@@ -80,14 +82,15 @@ public class LyricsCommand extends Command {
 
     private List<String> getSplitString(String content, int splitLength) {
         List<String> list = new ArrayList<>();
-        for (int i = 0; i < (content.length() / splitLength); i++) {
-            list.add(content.substring(i * splitLength, Math.min((i * splitLength + splitLength), content.length())));
+        for (int i = 0; i <= (content.length() / splitLength); i++) {
+            list.add(content.substring(i * splitLength, Math.min((i * splitLength) + splitLength, content.length())));
         }
+        System.out.println(list.toString());
         return list;
     }
 
-    private void addReactions(Message message, Lyrics lyrics, int splitLength) {
-        int pages = lyrics.getContent().length() / splitLength;
+    private void addReactions(Message message, Lyrics lyric, int splitLength) {
+        int pages = getSplitString(lyric.getContent(), splitLength).size();
         for (int i = 1; i <= pages; i++) {
             message.addReaction(getEmoteFromPage(i)).queue();
         }
