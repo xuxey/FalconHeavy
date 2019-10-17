@@ -3,6 +3,10 @@ package com.xuxe.falconHeavy.utils;
 import com.xuxe.falconHeavy.FalconHeavy;
 import com.xuxe.falconHeavy.framework.UserRank;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.User;
+
+import java.util.ArrayList;
 
 public class Manipulators {
     public static String[] popArray(String[] args) {
@@ -54,5 +58,15 @@ public class Manipulators {
         if (rank.equals(UserRank.DONATOR))
             return 2;
         return 1;
+    }
+
+    public static ArrayList<User> getIntendedUsers(Message message) {
+        ArrayList<User> users = new ArrayList<User>(message.getMentionedUsers());
+        JDA jda = FalconHeavy.getJda();
+        for (String s : message.getContentDisplay().split(" ")) {
+            if (isValidId(s))
+                users.add(jda.getUserById(s));
+        }
+        return users;
     }
 }

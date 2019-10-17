@@ -85,7 +85,6 @@ public class LyricsCommand extends Command {
         for (int i = 0; i <= (content.length() / splitLength); i++) {
             list.add(content.substring(i * splitLength, Math.min((i * splitLength) + splitLength, content.length())));
         }
-        System.out.println(list.toString());
         return list;
     }
 

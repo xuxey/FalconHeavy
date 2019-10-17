@@ -7,12 +7,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
+/**
+ * This might seem like a complicated mess. That is because it is. But it works.
+ * Anyway, here's the basic boilerplate for the following HashMaps:
+ * HashMap<String [commandName], HashMap<String [user/guild/channelID], Long [epoch millisecond time]>>
+ * CooldownScope.USER
+ */
 @SuppressWarnings("unused")
+
 public class Cooldown {
-    // This might seem like a complicated mess. That is because it is. But it works.
-    // Anyway, here's the basic boilerplate for the following HashMaps:
-    // HashMap<String [commandName], HashMap<String [user/guild/channelID], Long [epoch millisecond time]>>
-    // CooldownScope.USER
+
     private static HashMap<String, HashMap<String, Long>> userCooldowns = new HashMap<>();
     // CooldownScope.GUILD
     private static HashMap<String, HashMap<String, Long>> guildCooldowns = new HashMap<>();

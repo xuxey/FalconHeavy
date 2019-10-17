@@ -11,11 +11,12 @@ public class MessageReceivers extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
         if (event.getAuthor().isBot())
             return;
-        if (!event.getMessage().getContentRaw().startsWith(FalconHeavy.getConfig().getPrefix()))
+        String content = event.getMessage().getContentRaw();
+        if (!content.startsWith(FalconHeavy.getConfig().getPrefix()) || content.charAt(1) == '>')
             return;
         String label = "";
         //ignore spaces before command label because its user friendly
-        for (String element : event.getMessage().getContentRaw().split(" ")) {
+        for (String element : content.split(" ")) {
             if (element.equalsIgnoreCase(FalconHeavy.getConfig().getPrefix()) || element.equalsIgnoreCase(""))
                 continue;
             else

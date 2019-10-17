@@ -12,10 +12,7 @@ import com.xuxe.falconHeavy.commands.misc.PingCommand;
 import com.xuxe.falconHeavy.commands.moderation.BanCommand;
 import com.xuxe.falconHeavy.commands.moderation.KickCommand;
 import com.xuxe.falconHeavy.commands.moderation.PurgeCommand;
-import com.xuxe.falconHeavy.commands.utilities.CatCommand;
-import com.xuxe.falconHeavy.commands.utilities.JoinDateCommand;
-import com.xuxe.falconHeavy.commands.utilities.LyricsCommand;
-import com.xuxe.falconHeavy.commands.utilities.YoutubeCommand;
+import com.xuxe.falconHeavy.commands.utilities.*;
 import com.xuxe.falconHeavy.config.Config;
 import com.xuxe.falconHeavy.constants.FileNames;
 import com.xuxe.falconHeavy.database.ConnectionManager;
@@ -85,6 +82,8 @@ public class FalconHeavy {
         handler.addCommand(new CatCommand());
         handler.addCommand(new JoinDateCommand());
         handler.addCommand(new LyricsCommand());
+        handler.addCommand(new MathCommand());
+        handler.addCommand(new AvatarCommand());
     }
 
     private static void addAdminCommands() {

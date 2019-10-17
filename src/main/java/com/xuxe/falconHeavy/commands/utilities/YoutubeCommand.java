@@ -52,7 +52,6 @@ public class YoutubeCommand extends Command {
             } else {
                 trigger.respond("Something went wrong");//add loop if this is true
             }
-
         } catch (Exception e) {
             trigger.respond("Something went wrong.");
             e.printStackTrace();
