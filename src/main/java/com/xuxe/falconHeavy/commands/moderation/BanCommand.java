@@ -1,12 +1,10 @@
 package com.xuxe.falconHeavy.commands.moderation;
 
 import com.xuxe.falconHeavy.commands.Category;
-import com.xuxe.falconHeavy.constants.Responses;
 import com.xuxe.falconHeavy.framework.command.Command;
 import com.xuxe.falconHeavy.framework.triggers.CommandTrigger;
 import com.xuxe.falconHeavy.utils.Manipulators;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 
 import java.time.Instant;
@@ -27,11 +25,6 @@ public class BanCommand extends Command {
 
     @Override
     public void run(CommandTrigger trigger) {
-        Guild guild = trigger.getGuild();
-        if (guild == null) {
-            trigger.respond(Responses.NO_DM_ALLOWED);
-            return;
-        }
         String[] args = trigger.getArgs();
         ArrayList<Member> mentionedMembers = new ArrayList<Member>(trigger.getMessage().getMentionedMembers());
         StringBuilder reason = new StringBuilder();

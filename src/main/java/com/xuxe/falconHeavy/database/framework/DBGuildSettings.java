@@ -60,4 +60,14 @@ public class DBGuildSettings {
             return false;
         }
     }
+
+    public static boolean enableCommand(String guildID, String commandName) {
+        try {
+            PreparedStatement statement = ConnectionManager.getConnection().prepareStatement("update guildsettings set ? = 0 where ");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }
