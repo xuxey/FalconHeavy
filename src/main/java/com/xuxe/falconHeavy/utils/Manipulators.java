@@ -3,6 +3,7 @@ package com.xuxe.falconHeavy.utils;
 import com.xuxe.falconHeavy.FalconHeavy;
 import com.xuxe.falconHeavy.framework.UserRank;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 
@@ -67,6 +68,14 @@ public class Manipulators {
             if (isValidId(s))
                 users.add(jda.getUserById(s));
         }
+        return users;
+    }
+
+    public static ArrayList<Member> getIntendedMembers(Message message) {
+        ArrayList<Member> users = new ArrayList<Member>(message.getMentionedMembers());
+        for (String s : message.getContentDisplay().split(" "))
+            if (isValidId(s))
+                users.add(message.getGuild().getMemberById(s));
         return users;
     }
 }

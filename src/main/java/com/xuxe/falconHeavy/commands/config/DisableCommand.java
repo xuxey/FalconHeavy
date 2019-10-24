@@ -14,10 +14,10 @@ import net.dv8tion.jda.api.Permission;
 
 import java.time.Instant;
 
-public class EnableCommand extends Command {
-    public EnableCommand() {
-        this.name = "enable";
-        this.help = "Enables a particular command that was previously disabled in a server";
+public class DisableCommand extends Command {
+    public DisableCommand() {
+        this.name = "disable";
+        this.help = "Disables a particular command that was previously enabled in a server";
         this.category = Category.Config;
         this.cooldown = new int[]{60, 60};
         this.syntax = "enable <commandName>";
@@ -30,10 +30,10 @@ public class EnableCommand extends Command {
         if (trigger.getArgs().length == 0)
             throw new IncorrectSyntaxException();
         String command = CommandHandler.getNameFromAlias(trigger.getArgs(0));
-        if (DBGuildSettings.enableCommand(trigger.getGuild().getId(), command)) {
+        if (DBGuildSettings.disableCommand(trigger.getGuild().getId(), command)) {
             EmbedBuilder embedBuilder = new EmbedBuilder().setTitle(Constants.CONFIG_HEADER);
             embedBuilder.setTimestamp(Instant.now());
-            embedBuilder.setDescription("**Command Update**: The " + command + " command has been enabled");
+            embedBuilder.setDescription("**Command Update**: The " + command + " command has been disabled");
             trigger.respond(embedBuilder.build());
         } else {
             trigger.respond(Responses.ERROR);

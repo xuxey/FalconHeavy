@@ -63,11 +63,25 @@ public class DBGuildSettings {
 
     public static boolean enableCommand(String guildID, String commandName) {
         try {
-            PreparedStatement statement = ConnectionManager.getConnection().prepareStatement("update guildsettings set ? = 0 where ");
-        } catch (SQLException e) {
+            PreparedStatement statement = ConnectionManager.getConnection().prepareStatement("update guildsettings set " + commandName + " = 0 where gid = ?");
+            statement.setString(1, guildID);
+            statement.execute();
+            return true;
+        } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
             return false;
         }
-        return true;
+    }
+
+    public static boolean disableCommand(String guildID, String commandName) {
+        try {
+            PreparedStatement statement = ConnectionManager.getConnection().prepareStatement("update guildsettings set " + commandName + " = 1 where gid = ?");
+            statement.setString(1, guildID);
+            statement.execute();
+            return true;
+        } catch (SQLException | NullPointerException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

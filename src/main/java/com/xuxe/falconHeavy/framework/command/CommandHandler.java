@@ -16,7 +16,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class CommandHandler {
+public class CommandHandler implements CommandInterface {
     private static HashMap<String, Command> commands = new HashMap<>();
     private static HashMap<Category, String> categories = new HashMap<>();
 
@@ -102,7 +102,12 @@ public class CommandHandler {
             event.getChannel().sendMessage(String.format(Responses.COOLDOWN, timeLeft)).queue();
             return;
         }
-
         command.checkRun(trigger);
+    }
+
+    public static String getNameFromAlias(String alias) {
+        if (!commands.containsKey(alias.toLowerCase()))
+            return "";
+        return commands.get(alias).getName();
     }
 }

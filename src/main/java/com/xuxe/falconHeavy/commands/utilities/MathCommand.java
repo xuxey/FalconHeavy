@@ -29,7 +29,7 @@ public class MathCommand extends Command {
         } else {
             double val = Double.parseDouble(res);
             if (val - (int) val == 0) {
-                trigger.respond(val + "");
+                trigger.respond((int) val + "");
             } else {
                 trigger.respond(format.format(val));
             }

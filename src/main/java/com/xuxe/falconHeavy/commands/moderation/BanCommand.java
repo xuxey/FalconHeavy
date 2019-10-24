@@ -41,7 +41,7 @@ public class BanCommand extends Command {
         List<Member> successful = new ArrayList<>();
         for (Member member : mentionedMembers) {
             try {
-                member.ban(isHard ? 7 : 0, reason.toString()).queue();
+                member.ban(isHard ? 7 : 0, reason.toString()).queue(s -> member.getUser().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage("You have been banned from " + trigger.getGuild().getName() + " for " + reason).queue()));
                 successful.add(member);
             } catch (Exception e) {
                 failed.add(member);

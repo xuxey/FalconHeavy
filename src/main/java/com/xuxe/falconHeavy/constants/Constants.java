@@ -4,4 +4,5 @@ public class Constants {
     public static final int MAX_MESSAGES = 2;
     public static final String SUPPORT_SERVER = "";
     public static final String TASK_FAIL = "Could not do the following task: ";
+    public static final String CONFIG_HEADER = "Falcon Heavy Config \uD83D\uDEE0";
 }
