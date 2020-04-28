@@ -61,6 +61,8 @@ public class CommandHandler implements CommandInterface {
             return;
         Command command = commands.get(commandName.toLowerCase());
         CommandTrigger trigger = new CommandTrigger(event);
+        if (!DBChecks.userExists(event.getAuthor().getId()))
+            DBChecks.makeUser(event.getAuthor().getId());
         // Blacklist Check
         if (DBChecks.isBlacklisted(trigger.getUser().getId()))
             return;

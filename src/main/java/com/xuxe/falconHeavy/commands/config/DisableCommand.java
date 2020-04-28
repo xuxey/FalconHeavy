@@ -30,6 +30,8 @@ public class DisableCommand extends Command {
         if (trigger.getArgs().length == 0)
             throw new IncorrectSyntaxException();
         String command = CommandHandler.getNameFromAlias(trigger.getArgs(0));
+        if (command.equalsIgnoreCase("enable") || command.equalsIgnoreCase("disable"))
+            throw new IncorrectSyntaxException("You may not disable these commands");
         if (DBGuildSettings.disableCommand(trigger.getGuild().getId(), command)) {
             EmbedBuilder embedBuilder = new EmbedBuilder().setTitle(Constants.CONFIG_HEADER);
             embedBuilder.setTimestamp(Instant.now());

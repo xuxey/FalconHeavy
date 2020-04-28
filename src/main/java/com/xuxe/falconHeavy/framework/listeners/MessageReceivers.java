@@ -24,6 +24,7 @@ public class MessageReceivers extends ListenerAdapter {
             break;
         }
         label = label.replace(FalconHeavy.getConfig().prefix, "");
+        FalconHeavy.setJda(event.getJDA());
         new CommandHandler().onCommand(label, event);
     }
 }

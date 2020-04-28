@@ -86,7 +86,7 @@ class EvalComponent {
 
 
         try {
-            result = future.get(1, TimeUnit.SECONDS);
+            result = future.get(2, TimeUnit.SECONDS);
         } catch (final ExecutionException e) {
             errorWriter.println(e.getCause().toString());
         } catch (TimeoutException | InterruptedException e) {

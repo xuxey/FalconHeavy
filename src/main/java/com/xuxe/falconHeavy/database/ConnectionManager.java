@@ -14,7 +14,7 @@ public class ConnectionManager {
             return connection.isValid(5);
         } catch (SQLException | NullPointerException e) {
             System.out.println("Connection invalid!!");
-            System.exit(0);
+            System.exit(1);
         }
         return false;
     }
@@ -24,7 +24,8 @@ public class ConnectionManager {
             return connection;
         if (connect())
             return connection;
-        return null;
+        System.exit(1);
+        return connection;
     }
 
     public static void initializeConnection() {

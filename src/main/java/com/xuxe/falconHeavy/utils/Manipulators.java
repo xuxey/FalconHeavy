@@ -43,7 +43,9 @@ public class Manipulators {
     public static boolean isValidId(String id) {
         JDA jda = FalconHeavy.getJda();
         try {
-            return jda.getUserById(id.trim()) != null;
+            final User[] user = {null};
+            jda.retrieveUserById(id.trim()).queue(s -> user[0] = s);
+            return !(user[0] == null);
         } catch (NumberFormatException nfe) {
             return false;
         }
@@ -62,11 +64,13 @@ public class Manipulators {
     }
 
     public static ArrayList<User> getIntendedUsers(Message message) {
-        ArrayList<User> users = new ArrayList<User>(message.getMentionedUsers());
+        ArrayList<User> users = new ArrayList<>(message.getMentionedUsers());
         JDA jda = FalconHeavy.getJda();
         for (String s : message.getContentDisplay().split(" ")) {
-            if (isValidId(s))
-                users.add(jda.getUserById(s));
+            try {
+                jda.retrieveUserById(s).queue(users::add);
+            } catch (IllegalArgumentException ignored) {
+            }
         }
         return users;
     }

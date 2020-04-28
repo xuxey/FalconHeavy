@@ -1,6 +1,7 @@
 package com.xuxe.falconHeavy.database.points;
 
 import com.xuxe.falconHeavy.database.ConnectionManager;
+import com.xuxe.falconHeavy.database.framework.DBChecks;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,12 +19,8 @@ public class Points {
     public void addPoints(String id, int count) {
         try {
 
-            if (!connection.prepareStatement("select points from users where uid='" + id + "';").executeQuery().isBeforeFirst()) {
-                PreparedStatement statement = connection.prepareStatement("insert into users(uid,points) values('" + id + "'," + count + ");");
-                statement.setString(1, id);
-                statement.setInt(2, count);
-                statement.execute();
-                statement.close();
+            if (!DBChecks.userExists(id)) {
+                DBChecks.makeUser(id);
             } else {
                 PreparedStatement statement = connection.prepareStatement("update users set points=points+? where uid = ?");
                 statement.setInt(1, count);
@@ -62,7 +59,7 @@ public class Points {
             statement.setString(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.first())
-                return resultSet.getInt("trivpoints");
+                return resultSet.getInt("points");
             resultSet.close();
             statement.close();
         } catch (SQLException sql) {
