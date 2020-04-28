@@ -26,7 +26,7 @@ public class BanCommand extends Command {
     @Override
     public void run(CommandTrigger trigger) {
         String[] args = trigger.getArgs();
-        ArrayList<Member> mentionedMembers = new ArrayList<Member>(trigger.getMessage().getMentionedMembers());
+        ArrayList<Member> mentionedMembers = new ArrayList<>(trigger.getMessage().getMentionedMembers());
         StringBuilder reason = new StringBuilder();
         for (String s : args) {
             if (Manipulators.isMention(s)) continue;
@@ -41,6 +41,7 @@ public class BanCommand extends Command {
         List<Member> successful = new ArrayList<>();
         for (Member member : mentionedMembers) {
             try {
+                if (!trigger.getMessage().getMember().canInteract(member)) continue;
                 member.ban(isHard ? 7 : 0, reason.toString()).queue(s -> member.getUser().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage("You have been banned from " + trigger.getGuild().getName() + " for " + reason).queue()));
                 successful.add(member);
             } catch (Exception e) {

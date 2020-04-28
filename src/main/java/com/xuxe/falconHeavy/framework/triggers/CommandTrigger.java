@@ -162,7 +162,7 @@ public class CommandTrigger {
      *  respond methods adapted from JDAUtilities and JDAButler
      */
 
-    protected void reply(MessageReceivedEvent event, String message, Consumer<Message> successConsumer) {
+    protected void respond(MessageReceivedEvent event, String message, Consumer<Message> successConsumer) {
         respond(event, new MessageBuilder(message).build(), successConsumer);
     }
 

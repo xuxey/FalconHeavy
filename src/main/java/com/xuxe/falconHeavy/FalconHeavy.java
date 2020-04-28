@@ -26,6 +26,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -46,7 +47,10 @@ public class FalconHeavy {
         config = reload(FileNames.CONFIG_MAIN);
         if (config == null)
             System.exit(1);
-        jda = new JDABuilder(config.getToken()).build().awaitReady();
+        jda = JDABuilder.createDefault(config.getToken())
+                .setBulkDeleteSplittingEnabled(false)
+                .disableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE)
+                .build().awaitReady();
         jda.addEventListener(new MessageReceivers());
         jda.getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB, Activity.watching(FalconHeavy.getConfig().getPresence()));
         waiter = new EventWaiter();

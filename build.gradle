@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id'application'
-    id'com.github.johnrengelman.shadow' version '4.0.4'
+    id 'com.github.johnrengelman.shadow' version '5.1.0'
 }
 apply plugin: 'idea'
 group 'com.xuxe'
@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     // Java Discord API
-    compile 'net.dv8tion:JDA:4.0.0_45'
+    compile 'net.dv8tion:JDA:4.1.1_139'
     // Database
     compile 'mysql:mysql-connector-java:5.1.44'
     // Music
@@ -38,7 +38,13 @@ dependencies {
     // Logging
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.12.1'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.1'
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '2.0.0-alpha1'
 
 }
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.xuxe.falconHeavy.FalconHeavy'
+    }
+}
+
 compileJava.options.encoding = 'UTF-8'

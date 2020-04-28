@@ -13,7 +13,6 @@ import java.util.HashMap;
  * HashMap<String [commandName], HashMap<String [user/guild/channelID], Long [epoch millisecond time]>>
  * CooldownScope.USER
  */
-@SuppressWarnings("unused")
 
 public class Cooldown {
 

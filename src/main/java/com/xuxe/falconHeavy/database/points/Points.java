@@ -18,14 +18,14 @@ public class Points {
     public void addPoints(String id, int count) {
         try {
 
-            if (!connection.prepareStatement("select trivpoints from users where uid='" + id + "';").executeQuery().isBeforeFirst()) {
-                PreparedStatement statement = connection.prepareStatement("insert into users(uid,trivpoints) values('" + id + "'," + count + ");");
+            if (!connection.prepareStatement("select points from users where uid='" + id + "';").executeQuery().isBeforeFirst()) {
+                PreparedStatement statement = connection.prepareStatement("insert into users(uid,points) values('" + id + "'," + count + ");");
                 statement.setString(1, id);
                 statement.setInt(2, count);
                 statement.execute();
                 statement.close();
             } else {
-                PreparedStatement statement = connection.prepareStatement("update users set trivpoints=trivpoints+? where uid = ?");
+                PreparedStatement statement = connection.prepareStatement("update users set points=points+? where uid = ?");
                 statement.setInt(1, count);
                 statement.setString(2, id);
                 statement.execute();
@@ -40,12 +40,12 @@ public class Points {
         try {
 
             if (!connection.prepareStatement("select * from users where uid=" + id).executeQuery().first()) {
-                PreparedStatement statement = connection.prepareStatement("insert into users(uid,trivpoints) values( ?, ?)");
+                PreparedStatement statement = connection.prepareStatement("insert into users(uid,points) values( ?, ?)");
                 statement.setString(1, id);
                 statement.setInt(2, count);
                 statement.execute();
             } else {
-                PreparedStatement statement = connection.prepareStatement("update users set trivpoints=trivpoints-? where uid = ?");
+                PreparedStatement statement = connection.prepareStatement("update users set points=points-? where uid = ?");
                 statement.setInt(1, count);
                 statement.setString(2, id);
                 statement.execute();
@@ -58,7 +58,7 @@ public class Points {
 
     public int countPoints(String id) {
         try {
-            PreparedStatement statement = connection.prepareStatement("select trivpoints from users where uid = ?");
+            PreparedStatement statement = connection.prepareStatement("select points from users where uid = ?");
             statement.setString(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.first())
@@ -77,13 +77,13 @@ public class Points {
 
             if (connection.prepareStatement("select uid from users where uid='" + id + "'").executeQuery() == null) {
 
-                PreparedStatement statement = connection.prepareStatement("insert into users(uid,trivpoints) values(?, ?)");
+                PreparedStatement statement = connection.prepareStatement("insert into users(uid,points) values(?, ?)");
                 statement.setString(1, id);
                 statement.setInt(2, count);
                 statement.execute();
                 statement.close();
             } else {
-                PreparedStatement statement = connection.prepareStatement("update users set trivpoints = ? where uid = ?");
+                PreparedStatement statement = connection.prepareStatement("update users set points = ? where uid = ?");
                 statement.setInt(1, count);
                 statement.setString(2, id);
                 statement.execute();
@@ -96,7 +96,7 @@ public class Points {
 
     public ResultSet getTopPoints(int count) {
         try {
-            PreparedStatement statement = connection.prepareStatement("select * from users order by trivpoints DESC LIMIT ? ");
+            PreparedStatement statement = connection.prepareStatement("select * from users order by points DESC LIMIT ? ");
             statement.setInt(1, count);
             return statement.executeQuery();
         } catch (Exception e) {
