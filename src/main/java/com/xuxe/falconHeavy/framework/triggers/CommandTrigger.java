@@ -31,27 +31,34 @@ public class CommandTrigger {
     private boolean guildDisabled;
     private JDA jda;
     private boolean isPrivate = false;
+    private Member member = null;
 
     public CommandTrigger(MessageReceivedEvent event) {
         this.message = event.getMessage();
         this.fullArgs = getTrimmedArgs(message.getContentRaw().substring(message.getContentRaw().indexOf(FalconHeavy.getConfig().prefix) + 1));
         this.args = popArray(fullArgs);
         this.label = fullArgs[0];
+        this.user = event.getAuthor();
         this.string = message.getContentRaw();
         this.string = string.substring(this.string.indexOf(label) + label.length());
         this.string = string.trim().replaceAll(" +", " ");
-        if (event.isFromGuild())
+        if (event.isFromGuild()) {
             this.guild = event.getGuild();
-        else
+            this.member = this.message.getMember();
+        } else
             isPrivate = true;
         this.channel = event.getChannel();
         this.event = event;
         this.hasFile = message.getAttachments().size() > 0;
-        this.user = event.getAuthor();
         this.rank = DBChecks.getRank(user.getId());
         this.jda = event.getJDA();
     }
     // Getters
+
+    public Member getMember() {
+        return member;
+    }
+
     public boolean isPrivate() {
         return isPrivate;
     }

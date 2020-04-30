@@ -27,7 +27,7 @@ import com.xuxe.falconHeavy.database.ConnectionManager;
 import com.xuxe.falconHeavy.framework.command.CommandHandler;
 import com.xuxe.falconHeavy.framework.command.waiter.EventWaiter;
 import com.xuxe.falconHeavy.framework.listeners.GuildJoinListener;
-import com.xuxe.falconHeavy.framework.listeners.MessageReceivers;
+import com.xuxe.falconHeavy.framework.listeners.MessageListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -60,7 +60,7 @@ public class FalconHeavy {
                 .setBulkDeleteSplittingEnabled(false)
                 .disableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE)
                 .build().awaitReady();
-        jda.addEventListener(new MessageReceivers());
+        jda.addEventListener(new MessageListener());
         jda.addEventListener(new GuildJoinListener());
         jda.getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB, Activity.watching(FalconHeavy.getConfig().getPresence()));
         waiter = new EventWaiter();

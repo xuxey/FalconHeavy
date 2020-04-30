@@ -16,6 +16,7 @@ public class PurgeCommand extends Command {
         this.aliases = new String[]{"clear"};
         this.help = "Deletes a number of recent messages in a channel";
         this.privateAccessible = false;
+        this.botPermissions = new Permission[]{Permission.MESSAGE_MANAGE};
     }
 
     @Override
@@ -23,12 +24,13 @@ public class PurgeCommand extends Command {
         MessageChannel messageChannel = trigger.getChannel();
         if (trigger.getArgs().length == 0)
             throw new IncorrectSyntaxException();
-        messageChannel.getHistory().retrievePast(Integer.parseInt(trigger.getArgs()[0]) + 1).queue(
-                messageChannel::purgeMessages, failure -> {
-                    reactFail();
-                    trigger.respond("Cannot perform this action: " + failure.getMessage());
-                }
-        );
-        trigger.getMessage().delete().queue();
+        int count = Integer.parseInt(trigger.getArgs(0));
+        trigger.getChannel().getHistoryBefore(trigger.getMessage().getId(), count).queue(messageHistory -> {
+            messageChannel.purgeMessages(messageHistory.getRetrievedHistory());
+            trigger.getMessage().delete().queue();
+        }, fail -> {
+            reactFail();
+            trigger.respond("Could not complete purge: " + fail.getLocalizedMessage());
+        });
     }
 }

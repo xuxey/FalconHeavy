@@ -30,7 +30,7 @@ public class FactCommand extends Command {
         try {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
-                    .url("https://uselessfacts.jsph.pl/random.json")
+                    .url("https://uselessfacts.jsph.pl/random.json?language=en")
                     .build();
             Response response = client.newCall(request).execute();
             assert response.body() != null;

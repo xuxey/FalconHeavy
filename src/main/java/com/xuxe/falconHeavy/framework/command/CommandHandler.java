@@ -84,7 +84,28 @@ public class CommandHandler implements CommandInterface {
             command.reactFail(trigger.getMessage());
             return;
         }
-        // Permissions check
+        // Bot Permissions check
+        if (!event.getChannelType().equals(ChannelType.PRIVATE))
+            try {
+                boolean[] notAllowed = {false};
+                event.getGuild().retrieveMember(event.getJDA().getSelfUser()).queue(m -> {
+                            EnumSet<Permission> permissions = m.getPermissions();
+                            for (Permission permission : command.userPermissions) {
+                                if (!permissions.contains(permission)) {
+                                    event.getChannel().sendMessage(
+                                            "I cannot do this task without " + permission.getName() + " permission.").queue();
+                                    notAllowed[0] = true;
+                                }
+                            }
+                        }
+                );
+                if (notAllowed[0])
+                    return;
+            } catch (NullPointerException npe) {
+                event.getChannel().sendMessage(Responses.ERROR).queue();
+                return;
+            }
+        // User Permissions check
         if (!event.getChannelType().equals(ChannelType.PRIVATE)) {
             try {
                 EnumSet<Permission> permissions = Objects.requireNonNull(event.getMember(), "Member not found").getPermissions();
@@ -96,6 +117,7 @@ public class CommandHandler implements CommandInterface {
                 }
             } catch (NullPointerException npe) {
                 event.getChannel().sendMessage(Responses.ERROR).queue();
+                return;
             }
         }
         // Cooldown Check

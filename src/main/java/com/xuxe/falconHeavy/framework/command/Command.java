@@ -22,6 +22,7 @@ public abstract class Command {
     protected Permission[] userPermissions = new Permission[]{};
     protected boolean privateAccessible = true;
     protected Category category = Category.Miscellaneous;
+    protected Permission[] botPermissions;
     private CommandTrigger trigger;
     protected String syntax = "";
     protected UserRank rank = UserRank.DEFAULT;
@@ -44,6 +45,10 @@ public abstract class Command {
             reactFail(trigger.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public Permission[] getBotPermissions() {
+        return botPermissions;
     }
 
     public UserRank getRank() {

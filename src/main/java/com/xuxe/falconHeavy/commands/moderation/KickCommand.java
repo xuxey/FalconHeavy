@@ -24,6 +24,7 @@ public class KickCommand extends Command {
         this.userPermissions = new Permission[]{Permission.KICK_MEMBERS};
         this.syntax = "kick @user1 @user2 [userId] ... [reason]";
         this.privateAccessible = false;
+        this.botPermissions = new Permission[]{Permission.KICK_MEMBERS};
     }
 
     @Override
@@ -48,6 +49,10 @@ public class KickCommand extends Command {
         List<Member> successful = new ArrayList<>();
         for (Member member : mentionedMembers) {
             try {
+                if (!trigger.getMember().canInteract(member)) {
+                    trigger.respond("You do not have permissions to kick " + member.getAsMention());
+                    continue;
+                }
                 member.kick(reason.toString()).queue();
                 successful.add(member);
             } catch (Exception e) {

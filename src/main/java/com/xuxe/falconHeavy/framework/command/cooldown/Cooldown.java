@@ -8,10 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 
 /**
- * This might seem like a complicated mess. That is because it is. But it works.
- * Anyway, here's the basic boilerplate for the following HashMaps:
- * HashMap<String [commandName], HashMap<String [user/guild/channelID], Long [epoch millisecond time]>>
- * CooldownScope.USER
+ * Manages Cooldown using System time in ms.
+ * Data is lost on restart.
  */
 
 public class Cooldown {

@@ -2,12 +2,14 @@ package com.xuxe.falconHeavy.commands.misc;
 
 import com.xuxe.falconHeavy.FalconHeavy;
 import com.xuxe.falconHeavy.commands.Category;
+import com.xuxe.falconHeavy.constants.Constants;
 import com.xuxe.falconHeavy.framework.command.Command;
 import com.xuxe.falconHeavy.framework.command.CommandHandler;
 import com.xuxe.falconHeavy.framework.triggers.CommandTrigger;
 import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.awt.*;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,12 +37,19 @@ public class HelpCommand extends Command {
     }
 
     private EmbedBuilder getFullHelp() {
-        EmbedBuilder builder = new EmbedBuilder().setTitle("Commands available: ");
+        EmbedBuilder builder = new EmbedBuilder().setTitle("Falcon Heavy Help  \u2699");
         HashMap<Category, String> categories = CommandHandler.getCategories();
         for (Map.Entry<Category, String> entry : categories.entrySet()) {
             builder.addField(entry.getKey().toString(), entry.getValue(), false);
         }
+        builder.setDescription("[Support Server](" + Constants.SUPPORT_SERVER
+                + ") | [Invite Falcon Heavy](" + Constants.BOT_INVITE + ")");
+        builder.appendDescription("\nFor individual command help, use ```yml\n" +
+                ">help <command name>```\n");
+        builder.appendDescription("**Categories:**");
+        builder.setTimestamp(Instant.now());
         builder.setColor(Color.GRAY);
+        builder.setThumbnail(FalconHeavy.getJda().getSelfUser().getAvatarUrl());
         return builder;
     }
 

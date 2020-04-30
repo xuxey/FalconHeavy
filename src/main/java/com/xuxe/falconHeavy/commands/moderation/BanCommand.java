@@ -21,6 +21,7 @@ public class BanCommand extends Command {
         this.userPermissions = new Permission[]{Permission.BAN_MEMBERS};
         this.syntax = "ban @user1 @user2 [userId] ...[-hard] [reason]";
         this.privateAccessible = false;
+        this.botPermissions = new Permission[]{Permission.BAN_MEMBERS};
     }
 
     @Override
@@ -41,7 +42,10 @@ public class BanCommand extends Command {
         List<Member> successful = new ArrayList<>();
         for (Member member : mentionedMembers) {
             try {
-                if (!trigger.getMessage().getMember().canInteract(member)) continue;
+                if (!trigger.getMember().canInteract(member)) {
+                    trigger.respond("You do not have permissions to ban " + member.getAsMention());
+                    continue;
+                }
                 member.ban(isHard ? 7 : 0, reason.toString()).queue(s -> member.getUser().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage("You have been banned from " + trigger.getGuild().getName() + " for " + reason).queue()));
                 successful.add(member);
             } catch (Exception e) {
