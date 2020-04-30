@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class Manipulators {
     public static String[] popArray(String[] args) {
@@ -81,5 +82,28 @@ public class Manipulators {
             if (isValidId(s))
                 users.add(message.getGuild().getMemberById(s));
         return users;
+    }
+
+    public static String getTimeDisplay(long ms) {
+        String res = "";
+        long t;
+        t = TimeUnit.DAYS.convert(ms, TimeUnit.MILLISECONDS);
+        res += (t != 0) ? t + "d " : "";
+        ms = ms - t * 24 * 60 * 60 * 1000;
+        t = TimeUnit.HOURS.convert(ms, TimeUnit.MILLISECONDS);
+        res += (t != 0) ? t + "h " : "";
+        ms = ms - t * 60 * 60 * 1000;
+        t = TimeUnit.MINUTES.convert(ms, TimeUnit.MILLISECONDS);
+        res += (t != 0) ? t + "m " : "";
+        ms = ms - t * 60 * 1000;
+        t = TimeUnit.SECONDS.convert(ms, TimeUnit.MILLISECONDS);
+        res += t + "s";
+        return res;
+    }
+
+    public static String properNoun(String string) {
+        if (string.isEmpty()) return "";
+        if (string.length() == 1) return Character.toUpperCase(string.charAt(0)) + "";
+        return Character.toUpperCase(string.charAt(0)) + string.substring(1).toLowerCase();
     }
 }

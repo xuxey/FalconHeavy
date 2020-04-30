@@ -1,4 +1,4 @@
-package com.xuxe.falconHeavy.commands.utilities;
+package com.xuxe.falconHeavy.commands.config;
 
 import com.xuxe.falconHeavy.commands.Category;
 import com.xuxe.falconHeavy.database.ConnectionManager;
@@ -13,10 +13,11 @@ import java.sql.SQLException;
 public class WelcomeDMCommand extends Command {
     public WelcomeDMCommand() {
         this.name = "welcomedm";
-        this.category = Category.Utilities;
+        this.category = Category.Config;
         this.help = "WelcomeDM lets you send an automated direct message to any new members joining your server";
         this.extraHelp = "You can use placeholders such as {server}, {user} and {self} to modify the message as you desire";
         this.aliases = new String[]{"joindm"};
+        this.syntax = "welcomedm <text>";
         this.privateAccessible = false;
         this.userPermissions = new Permission[]{Permission.MANAGE_SERVER};
         this.cooldown = new int[]{30, 10, 0};
@@ -38,7 +39,7 @@ public class WelcomeDMCommand extends Command {
     private boolean addWelcomeDM(String message, String gid) {
         try {
             PreparedStatement statement = ConnectionManager.getConnection().prepareStatement(
-                    "UPDATE guildsettings SET welcomedm = ? WHERE gid = ?");
+                    "UPDATE guildsettings SET welcomedmtext = ? WHERE gid = ?");
             statement.setString(1, message);
             statement.setString(2, gid);
             return statement.executeUpdate() == 1;

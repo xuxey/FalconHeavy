@@ -14,12 +14,10 @@ public class GuildJoinListener extends ListenerAdapter {
 
     @Override
     public void onGuildMemberJoin(@Nonnull GuildMemberJoinEvent event) {
-        System.out.println("I was executed");
         User user = event.getUser();
         String message = getMessage(event.getGuild().getId());
         if (message.isEmpty())
             return;
-        System.out.println("I am not empty");
         message = message.replace("{user}", event.getUser().getAsMention());
         String finalMessage = message;
         user.openPrivateChannel().flatMap(c ->
@@ -29,7 +27,7 @@ public class GuildJoinListener extends ListenerAdapter {
     private String getMessage(String gid) {
         try {
             PreparedStatement statement = ConnectionManager.getConnection().prepareStatement(
-                    "SELECT welcomedm FROM guildsettings WHERE gid = ?");
+                    "SELECT welcomedmtext FROM guildsettings WHERE gid = ?");
             statement.setString(1, gid);
             ResultSet set = statement.executeQuery();
             if (set.next())

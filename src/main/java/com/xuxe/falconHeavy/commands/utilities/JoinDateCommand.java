@@ -3,6 +3,7 @@ package com.xuxe.falconHeavy.commands.utilities;
 import com.xuxe.falconHeavy.commands.Category;
 import com.xuxe.falconHeavy.framework.command.Command;
 import com.xuxe.falconHeavy.framework.triggers.CommandTrigger;
+import com.xuxe.falconHeavy.utils.Manipulators;
 import net.dv8tion.jda.api.entities.Member;
 
 import java.time.OffsetDateTime;
@@ -22,12 +23,14 @@ public class JoinDateCommand extends Command {
         if (trigger.getArgs().length != 0) {
             member = trigger.getMessage().getMentionedMembers().get(0);
         }
-        OffsetDateTime date = null;
+        OffsetDateTime date;
         if (member == null) {
             reactFail();
             return;
         }
         date = member.getTimeJoined();
-        trigger.respond(member.getAsMention() + "'s most recent join date is: " + date.getDayOfMonth() + " " + date.getMonth() + ", " + date.getYear());
+        trigger.respond(member.getAsMention() + "'s most recent join date is: " +
+                date.getDayOfMonth() + " " + Manipulators.properNoun(date.getMonth().name())
+                + ", " + date.getYear());
     }
 }

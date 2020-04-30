@@ -8,7 +8,7 @@ import org.codehaus.groovy.jsr223.GroovyScriptEngineImpl;
 import javax.script.ScriptEngine;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -19,27 +19,10 @@ import java.util.concurrent.*;
  * who borrowed it from https://github.com/Almighty-Alpaca/JDA-Butler/blob/master/bot/src/main/java/com/almightyalpaca/discord/jdabutler/eval/Engine.java
  * The code in this file does not belong to me, and is used under the pretext of the liberal Apache 2.0 license
  **/
-class EvalComponent {
+public class EvalComponent {
 
     // Imports used
-    private static final List<String> DEFAULT_IMPORTS = Arrays.asList(
-            "com.xuxe.falconHeavy",
-            "net.dv8tion.jda.core.entities.impl",
-            "net.dv8tion.jda.core.managers",
-            "net.dv8tion.jda.core.entities",
-            "net.dv8tion.jda.core",
-            "net.dv8tion.jda.api",
-            "java.lang",
-            "java.io",
-            "java.math",
-            "java.eval",
-            "java.eval.concurrent",
-            "java.time",
-            "java.awt",
-            "java.awt.image",
-            "javax.imageio",
-            "java.time.format"
-    );
+    public static List<String> DEFAULT_IMPORTS = new ArrayList<>();
 
     private final static ScheduledExecutorService service = Executors.newScheduledThreadPool(1, newThreadFactory());
 
@@ -61,6 +44,7 @@ class EvalComponent {
      * @return The result in a Triple container. The first parameter is the result, the second is the output and the third an error/exception.
      */
     Triple<Object, String, String> eval(final Map<String, Object> fields, final Collection<String> classImports, final String script) {
+
         StringBuilder importString = new StringBuilder();
         for (final String s : classImports)
             importString.append("import ").append(s).append(";");
@@ -84,7 +68,6 @@ class EvalComponent {
         Object result = null;
         final ScheduledFuture<Object> future = EvalComponent.service.schedule(() -> engine.eval(script), 0, TimeUnit.MILLISECONDS);
 
-
         try {
             result = future.get(2, TimeUnit.SECONDS);
         } catch (final ExecutionException e) {
@@ -93,7 +76,6 @@ class EvalComponent {
             future.cancel(true);
             errorWriter.println(e.toString());
         }
-
 
         return new ImmutableTriple<>(result, outString.toString(), errorString.toString());
     }

@@ -5,14 +5,17 @@ import com.xuxe.falconHeavy.commands.admin.MemoryCommand;
 import com.xuxe.falconHeavy.commands.admin.PresenceCommand;
 import com.xuxe.falconHeavy.commands.admin.SetRankCommand;
 import com.xuxe.falconHeavy.commands.admin.eval.EvalCommand;
+import com.xuxe.falconHeavy.commands.admin.eval.EvalComponent;
 import com.xuxe.falconHeavy.commands.admin.eval.NashornEvalCommand;
 import com.xuxe.falconHeavy.commands.config.DisableCommand;
 import com.xuxe.falconHeavy.commands.config.EnableCommand;
+import com.xuxe.falconHeavy.commands.config.WelcomeDMCommand;
 import com.xuxe.falconHeavy.commands.fun.DiceCommand;
 import com.xuxe.falconHeavy.commands.fun.FactCommand;
 import com.xuxe.falconHeavy.commands.fun.trivia.TriviaCommand;
 import com.xuxe.falconHeavy.commands.misc.HelpCommand;
 import com.xuxe.falconHeavy.commands.misc.PingCommand;
+import com.xuxe.falconHeavy.commands.misc.UptimeCommand;
 import com.xuxe.falconHeavy.commands.moderation.BanCommand;
 import com.xuxe.falconHeavy.commands.moderation.GetPermsCommand;
 import com.xuxe.falconHeavy.commands.moderation.KickCommand;
@@ -71,6 +74,10 @@ public class FalconHeavy {
         addAdminCommands();
         addFunCommands();
         addConfigCommands();
+        // configure imports for eval
+        for (Package p : Package.getPackages()) {
+            EvalComponent.DEFAULT_IMPORTS.add(p.getName());
+        }
     }
 
     public static JDA getJda() {
@@ -91,6 +98,7 @@ public class FalconHeavy {
     private static void addMiscCommands() {
         handler.addCommand(new PingCommand());
         handler.addCommand(new HelpCommand());
+        handler.addCommand(new UptimeCommand());
     }
 
     private static void addUtilityCommands() {
